@@ -1,0 +1,15 @@
+Import("environment")
+
+source = [
+	"group.c",
+	"image.c",
+	"shape.c",
+]
+
+backends = ["Vulkan", "OpenGL"]
+
+libs = SConscript(dirs = backends, exports = ["environment"])
+
+libsapphiresg = environment.SharedLibrary("sapphiresg", source, LIBS = libs)
+
+Return("libsapphiresg")

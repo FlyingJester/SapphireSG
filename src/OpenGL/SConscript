@@ -1,0 +1,15 @@
+import os
+Import("environment")
+
+source = [
+	"opengl.c",
+]
+
+if os.name == "posix":
+	libs = "GL"
+else
+	libs = "OpenGL32"
+
+libsgopengl = environment.StaticLibrary("sgopengl", source, LIBS = libs)
+
+Return("libsgopengl")

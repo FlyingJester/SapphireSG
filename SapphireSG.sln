@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SapphireSG", "SapphireSG.vcxproj", "{271A18CD-8FCE-4118-9307-6F5F623DA380}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL", "src\OpenGL\OpenGL.vcxproj", "{B98D7134-DC87-490F-B101-AE8F5E529304}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vulkan", "src\Vulkan\Vulkan.vcxproj", "{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backends", "Backends", "{1FB04F01-745C-4016-A98C-E0ADF34406D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Debug|x64.ActiveCfg = Debug|x64
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Debug|x64.Build.0 = Debug|x64
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Debug|x86.ActiveCfg = Debug|Win32
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Debug|x86.Build.0 = Debug|Win32
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Release|x64.ActiveCfg = Release|x64
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Release|x64.Build.0 = Release|x64
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Release|x86.ActiveCfg = Release|Win32
+		{271A18CD-8FCE-4118-9307-6F5F623DA380}.Release|x86.Build.0 = Release|Win32
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Debug|x64.ActiveCfg = Debug|x64
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Debug|x64.Build.0 = Debug|x64
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Debug|x86.ActiveCfg = Debug|Win32
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Debug|x86.Build.0 = Debug|Win32
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Release|x64.ActiveCfg = Release|x64
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Release|x64.Build.0 = Release|x64
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Release|x86.ActiveCfg = Release|Win32
+		{B98D7134-DC87-490F-B101-AE8F5E529304}.Release|x86.Build.0 = Release|Win32
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Debug|x64.ActiveCfg = Debug|x64
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Debug|x64.Build.0 = Debug|x64
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Debug|x86.ActiveCfg = Debug|Win32
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Release|x64.ActiveCfg = Release|x64
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Release|x64.Build.0 = Release|x64
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Release|x86.ActiveCfg = Release|Win32
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B98D7134-DC87-490F-B101-AE8F5E529304} = {1FB04F01-745C-4016-A98C-E0ADF34406D0}
+		{37AA4CA5-7A6B-49E3-90BE-59B7CC1AE399} = {1FB04F01-745C-4016-A98C-E0ADF34406D0}
+	EndGlobalSection
+EndGlobal
