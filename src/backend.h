@@ -7,14 +7,6 @@
 struct SapphireSG_ContextGuts;
 struct SapphireSG_GroupGuts;
 
-
-struct SapphireSG_Group {
-    struct SapphireSG_GroupGuts *guts;
-
-    unsigned num_shapes, shapes_capacity;
-    struct SapphireSG_Shape *shapes;
-};
-
 struct SapphireSG_Context {
     struct SapphireSG_ContextGuts *guts;
 

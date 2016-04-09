@@ -31,3 +31,5 @@ struct SapphireSG_Shape {
     unsigned num_vertices, vertices_capacity;
     struct SapphireSG_Vertex *vertices;
 };
+
+bool SG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape);

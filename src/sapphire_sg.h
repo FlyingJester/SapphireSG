@@ -146,6 +146,9 @@ struct SapphireSG_Group *SG_CreateGroup(struct SapphireSG_Context *ctx);
 SAPPHIRESG_API_EXPORT
 bool SG_DestroyGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group);
 
+SAPPHIRESG_API_EXPORT
+bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group);
+
 /**
  * @brief Creates a Shape for a Context.
  *
@@ -246,9 +249,13 @@ struct SapphireSG_Group *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct
  * @return Image if creation is successful, NULL otherwise.
  * @see SG_GetImageSize
  */
+
+
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Image *SG_CreateImage(struct SapphireSG_Context *ctx, const unsigned char *pixels, unsigned w, unsigned h);
 
+SAPPHIRESG_API_EXPORT
+bool SG_DestroyImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im);
 /**
  * @brief Retrieves the image size of @p im
  *

@@ -23,6 +23,23 @@ struct SapphireSG_Image *SG_CreateImage(struct SapphireSG_Context *ctx, const un
 }
 
 SAPPHIRESG_API_EXPORT
+bool SG_DestroyImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im) {
+	assert(ctx);
+	assert(im);
+
+	if (!im)
+		return false;
+
+	ctx->DestroyImage(ctx, im);
+	free(im);
+
+	return true;
+}
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Image *SG_CreateImage(struct SapphireSG_Context *ctx, const unsigned char *pixels, unsigned w, unsigned h);
+
+SAPPHIRESG_API_EXPORT
 bool SG_GetImageSize(struct SapphireSG_Context *ctx, const struct SapphireSG_Image *im, unsigned *w, unsigned *h) {
     assert(ctx);
     assert(im);

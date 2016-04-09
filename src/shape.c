@@ -101,3 +101,18 @@ bool SG_SetShapeVertexTexturePosition(struct SapphireSG_Context *ctx, struct Sap
 
     return true;
 }
+
+bool SG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
+	assert(ctx);
+	assert(shape);
+
+	if (shape->dirty) {
+		ctx->UpdateShape(ctx, shape);
+		shape->dirty = false;
+	}
+
+	ctx->BindImage(ctx, shape->image);
+	ctx->DrawShape(ctx, shape);
+	
+	return true;
+}
