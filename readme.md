@@ -9,7 +9,9 @@ asynchronously using hardware acceleration, exposing a simple scenegraph API
 that maps well to OpenGL 4.1 while still being simple to use in procedural or
 object oriented systems.
 
-Sapphire is released under the 2-clause BSD license.
+Sapphire is released under the 2-clause BSD license. The public API is
+documented in doc/html/index.html, under the sapphire_sg.h file (the public
+header).
 
 It is based on the Sapphire graphics plugin from TurboSphere, and is used as
 the main graphics plugin in the Turbo game engine. You can also see a proof
