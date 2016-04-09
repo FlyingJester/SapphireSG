@@ -130,13 +130,17 @@
     <ClInclude Include="..\backend.h" />
     <ClInclude Include="..\sapphire_sg.h" />
     <ClInclude Include="opengl.h" />
+    <ClInclude Include="opengl_backend.h" />
     <ClInclude Include="opengl_context.h" />
     <ClInclude Include="opengl_image.h" />
+    <ClInclude Include="opengl_shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="opengl.c" />
+    <ClCompile Include="opengl_backend.c" />
     <ClCompile Include="opengl_context.c" />
     <ClCompile Include="opengl_image.c" />
+    <ClCompile Include="opengl_shape.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

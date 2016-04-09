@@ -3,6 +3,7 @@
 
 struct SapphireSG_Vertex {
     float data[5];
+	unsigned char color[4];
 };
 
 #define SG_X_INDEX 0

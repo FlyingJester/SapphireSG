@@ -7,3 +7,5 @@ struct SapphireSG_ContextGuts {
 
 
 };
+
+struct SapphireSG_ContextGuts *OpenGLSG_CreateContext();
