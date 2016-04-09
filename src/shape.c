@@ -52,6 +52,9 @@ bool SG_SetShapeVertexPosition(struct SapphireSG_Context *ctx, struct SapphireSG
     assert(i < shape->num_vertices);
 
     SG_XYZ(shape->vertices[i], x, y, z);
+
+	shape->dirty = true;
+
     return true;
 }
 
@@ -93,6 +96,8 @@ bool SG_SetShapeVertexTexturePosition(struct SapphireSG_Context *ctx, struct Sap
     assert(i < shape->num_vertices);
 
     SG_UV(shape->vertices[i], u, v);
+
+	shape->dirty = true;
 
     return true;
 }

@@ -236,13 +236,58 @@ bool SG_SetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *g
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Group *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group, unsigned i);
 
+/**
+ * @brief Creates an Image
+ *
+ * @param ctx Contex for the image
+ * @param pixels An array of pixels in RGBA order
+ * @param w Width of image in pixels
+ * @param h Height of image in pixels
+ * @return Image if creation is successful, NULL otherwise.
+ * @see SG_GetImageSize
+ */
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Image *SG_CreateImage(struct SapphireSG_Context *ctx, const unsigned char *pixels, unsigned w, unsigned h);
+
+/**
+ * @brief Retrieves the image size of @p im
+ *
+ * Both w and h are optional, if you do not require one of the dimensions.
+ * The values pointed to by w and h are undefined if this function fails.
+ *
+ * @param ctx Context which @p im belongs to
+ * @param im Image to get dimensions for
+ * @param w (out) (optional) The width of the image
+ * @param h (out) (optional) The height of the image
+ * @return true if successful, false otherwise.
+ * @see SG_GetImageWidth
+ * @see SG_GetImageHeight
+ */
 SAPPHIRESG_API_EXPORT
 bool SG_GetImageSize(struct SapphireSG_Context *ctx, const struct SapphireSG_Image *im,
     unsigned *w SG_DEF_ARG(NULL), unsigned *h SG_DEF_ARG(NULL));
+
+/**
+ * @brief Gets the width of an image
+ *
+ * @param ctx Context which @p im belongs to
+ * @param im Image to get width of
+ * @return Width of @p im
+ * @see SG_GetImageHeight
+ * @see SG_GetImageSize
+ */
 SAPPHIRESG_API_EXPORT
 unsigned SG_GetImageWidth(struct SapphireSG_Context *ctx, const struct SapphireSG_Image *im);
+
+/**
+ * @brief Gets the height of an image
+ *
+ * @param ctx Context which @p im belongs to
+ * @param im Image to get height of
+ * @return Height of @p im
+ * @see SG_GetImageWidth
+ * @see SG_GetImageSize
+ */
 SAPPHIRESG_API_EXPORT
 unsigned SG_GetImageHeight(struct SapphireSG_Context *ctx, const struct SapphireSG_Image *im);
 
@@ -252,7 +297,7 @@ unsigned SG_GetImageHeight(struct SapphireSG_Context *ctx, const struct Sapphire
  * This will resize how many Vertices the Shape contains.
  *
  * @param ctx Context which @p shape belongs to
- * @param shape Shape to set the Vertex of
+ * @param shape Shape to set the Vertex capacity of
  * @param n New Vertex capacity
  * @return Returns true if the Shape's capacity is resized, false otherwise
  * @see SG_GetShapeVertexCapacity
@@ -261,25 +306,63 @@ SAPPHIRESG_API_EXPORT
 bool SG_SetShapeVertexCapacity(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape, unsigned n);
 
 /**
+ * @brief Gets the Vertex capacity of a Shape
+ *
+ * @param ctx Context which @p shape belongs to
+ * @param shape Shape to get the Vertex capacity of
+ * @return The capacity of @p shape
+ */
+SAPPHIRESG_API_EXPORT
+unsigned SG_GetShapeVertexCapacity(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape);
+
+/**
  * @brief Gets the number of Vertices in a Shape.
  *
  * @param ctx Context which the Shape belongs to
- * @param shape Shape to resize
- * @return The capacity of the Shape
+ * @param shape @c Shape to resize
+ * @return The capacity of the @c Shape
  * @see SG_SetShapeVertexCapacity
  */
 SAPPHIRESG_API_EXPORT
 unsigned SG_GetShapeVertexCapacity(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape);
 
+/**
+ * @brief Sets the @c Image for @p shape
+ *
+ * Behaviour is undefined if a @c Shape is drawn without an @c Image assigned to it.
+ *
+ * @param ctx Context which @p shape belongs to
+ * @param shape Shape to set the @c Image of
+ * @param im New @c Image for @p shape
+ * @return true if changing the @c Image of @p shape is successful, false otherwise
+ * @see SG_GetShapeImage
+ */
 SAPPHIRESG_API_EXPORT
 bool SG_SetShapeImage(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape, struct SapphireSG_Image *im);
 
+/**
+ * @brief Gets the @c Image for @p shape
+ *
+ * @param ctx Context which @p shape belongs to
+ * @param shape Shape to get the @c Image of
+ * @return The @c Image of @p shape, or NULL if no @c Image is set on @p shape or if an error occurs.
+ * @see SG_GetShapeImage
+ */
 SAPPHIRESG_API_EXPORT
 const struct SapphireSG_Image *SG_GetShapeImage(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape);
 
-SAPPHIRESG_API_EXPORT
-unsigned SG_GetShapeVertexCapacity(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape);
-
+/**
+ * @brief Sets the vertex coordinates of a @c Vertex in @p shape
+ *
+ * Note that @p z is reserved for future use. It should be 1.0
+ *
+ * @param ctx @c Context which @p shape belongs to
+ * @param shape @c Shape to set the vertex of
+ * @param i Index of @c Vertex to set
+ * @param x X coordinate
+ * @param y Y coordinate
+ * @param z Unused, should be 1.0
+ */
 SAPPHIRESG_API_EXPORT
 bool SG_SetShapeVertexPosition(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape,
     unsigned i, float x, float y, float z SG_DEF_ARG(1.0f));
@@ -288,6 +371,15 @@ SAPPHIRESG_API_EXPORT
 bool SG_GetShapeVertexPosition(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
     unsigned i, float *x SG_DEF_ARG(NULL), float *y SG_DEF_ARG(NULL), float *z SG_DEF_ARG(NULL));
 
+/**
+* @brief Sets the texture coordinates of a @c Vertex in @p shape
+*
+* @param ctx @c Context which @p shape belongs to
+* @param shape @c Shape to set the texture coordinates of
+* @param i Index of @c Vertex to set
+* @param u U coordinate
+* @param v V coordinate
+*/
 SAPPHIRESG_API_EXPORT
 bool SG_SetShapeVertexTexturePosition(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape,
     unsigned i, float u, float v);

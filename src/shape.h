@@ -26,6 +26,7 @@ struct SapphireSG_ShapeGuts;
 struct SapphireSG_Shape {
     struct SapphireSG_ShapeGuts *guts;
     struct SapphireSG_Image *image;
+	bool dirty;
 
     unsigned num_vertices, vertices_capacity;
     struct SapphireSG_Vertex *vertices;
