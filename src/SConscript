@@ -1,9 +1,19 @@
 Import("environment")
 
+import os
+
+if os.name == "posix":
+	monitor_src = "posix_monitor.c"
+else:
+	monitor_src = "win32_monitor.c"
+
 source = [
 	"group.c",
 	"image.c",
 	"shape.c",
+	"context.c",
+	"thread.c",
+	monitor_src
 ]
 
 backends = ["Vulkan", "OpenGL"]

@@ -122,6 +122,22 @@ enum SG_Backend SG_GetBackend(const struct SapphireSG_Context *ctx, unsigned *ma
 SAPPHIRESG_API_EXPORT
 bool SG_DestroyContext(struct SapphireSG_Context *ctx);
 
+SAPPHIRESG_API_EXPORT
+bool SG_SetSceneEndCallback(struct SapphireSG_Context *ctx, void (*callback)(struct SapphireSG_Context *ctx, void *arg), void *arg);
+
+/* arg should be set to the DC. This should only be used with the OpenGL backend. */
+SAPPHIRESG_API_EXPORT
+void SG_WGLSceneEndCallback(struct SapphireSG_Context *ctx, void *arg);
+
+/* arg should be set to the SDL_Window. This should only be used with the OpenGL backend. */
+SAPPHIRESG_API_EXPORT
+void SG_SDL2SceneEndCallback(struct SapphireSG_Context *ctx, void *arg);
+
+/* arg should be set to the EGLSurface. This can be used with the OpenGL
+ * backend or the Vulkan backend, depending on the platform. */
+SAPPHIRESG_API_EXPORT
+void SG_EGLSceneEndCallback(struct SapphireSG_Context *ctx, void *arg);
+
 /**
  * @brief Creates a Group for a Context.
  *
@@ -175,7 +191,6 @@ struct SapphireSG_Shape *SG_CreateShape(struct SapphireSG_Context *ctx);
  */
 SAPPHIRESG_API_EXPORT
 bool SG_DestroyShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape);
-
 
 /**
  * @brief Sets the number of Shapes in a Group.

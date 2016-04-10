@@ -143,15 +143,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\backend.h" />
+    <ClInclude Include="src\context.h" />
     <ClInclude Include="src\group.h" />
     <ClInclude Include="src\image.h" />
+    <ClInclude Include="src\monitor.h" />
     <ClInclude Include="src\sapphire_sg.h" />
     <ClInclude Include="src\shape.h" />
+    <ClInclude Include="src\thread.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\context.c" />
     <ClCompile Include="src\group.c" />
     <ClCompile Include="src\image.c" />
     <ClCompile Include="src\shape.c" />
+    <ClCompile Include="src\thread.c" />
+    <ClCompile Include="src\win32_monitor.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="src\OpenGL\OpenGL.vcxproj">
