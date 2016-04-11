@@ -5,6 +5,8 @@ struct SapphireSG_ContextGuts;
 struct SapphireSG_Context {
 	struct SapphireSG_ContextGuts *guts;
 
+	enum SG_Backend backend;
+
 	void (*swap_window_callback)(void *arg);
 	void *swap_window_arg;
 

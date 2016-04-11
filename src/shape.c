@@ -116,3 +116,18 @@ bool SG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape
 	
 	return true;
 }
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Shape *SG_CreateShape(struct SapphireSG_Context *ctx) {
+	struct SapphireSG_Shape *const shape = malloc(sizeof(struct SapphireSG_Shape));
+	shape->guts = ctx->CreateShape(ctx);
+
+	shape->dirty = false;
+	shape->image = NULL;
+
+	shape->num_vertices = 0;
+	shape->vertices_capacity = 4;
+	shape->vertices = calloc(sizeof(struct SapphireSG_Vertex), 4);
+
+	return shape;
+}

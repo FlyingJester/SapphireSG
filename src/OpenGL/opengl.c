@@ -55,6 +55,13 @@ NAME = TYPING OpenGL_LoadProcAddres( #NAME )
 
 void OpenGLSG_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *)) {
 
+	if (OpenGL_LoadProcAddres == NULL) {
+#ifdef _WIN32
+		OpenGL_LoadProcAddres = (void *(__stdcall *)(const char *))wglGetProcAddress;
+#endif
+
+	}
+
 	GET_GL_FUNCTION(glGenBuffers, (void (APIENTRY *)(GLsizei, GLuint*)));
 	GET_GL_FUNCTION(glDeleteBuffers, (void (APIENTRY *)(GLsizei, GLuint*)));
 	GET_GL_FUNCTION(glBindBuffer, (void (APIENTRY *)(GLenum, GLuint)));

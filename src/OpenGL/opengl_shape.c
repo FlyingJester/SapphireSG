@@ -83,8 +83,9 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
-	glColorPointer(4, GL_UNSIGNED_BYTE, 0, NULL);
-	glVertexPointer(2, GL_FLOAT, 0, (void *)8);
+	glColorPointer(4, GL_UNSIGNED_BYTE, COLOR_STRIDE, NULL);
+	glVertexPointer(3, GL_FLOAT, COORD_STRIDE, (unsigned char *)COORD_OFFSET);
+	glTexCoordPointer(2, GL_FLOAT, TEX_COORD_STRIDE, (unsigned char *)TEX_COORD_OFFSET);
 
 	if(shape->num_vertices < PREDEFINED_GL_MODES)
 		glDrawArrays(gl_draw_mode[shape->num_vertices], 0, 2);

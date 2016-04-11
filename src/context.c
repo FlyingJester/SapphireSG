@@ -1,5 +1,8 @@
 #include "context.h"
 #include "sapphire_sg.h"
+
+#include "OpenGL/opengl_backend.h"
+
 #include <assert.h>
 
 #if (!defined _WIN32) && (!defined SAPPHIRESG_DISABLE_EGL) && (!defined SAPPHIRESG_ENABLE_EGL)
@@ -15,6 +18,17 @@
 #ifdef SAPPHIRESG_ENABLE_EGL
 #include <EGL/egl.h>
 #endif
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Context *SG_CreateContext(enum SG_Backend backend, unsigned maj, unsigned min) {
+	struct SapphireSG_Context *const ctx = malloc(sizeof(struct SapphireSG_Context));
+	OpenGLSG_InitContext(ctx);
+	ctx->guts = ctx->CreateContext();
+
+	ctx->backend = backend;
+
+	return ctx;
+}
 
 /* arg should be set to the DC */
 SAPPHIRESG_API_EXPORT

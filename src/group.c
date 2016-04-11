@@ -18,3 +18,14 @@ bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group
 
 	return ok;
 }
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Group *SG_CreateGroup(struct SapphireSG_Context *ctx) {
+	struct SapphireSG_Group *const group = malloc(sizeof(struct SapphireSG_Group));
+	group->num_shapes = 0;
+
+	group->shapes_capacity = 16;
+	group->shapes = calloc(sizeof(struct SapphireSG_Shape), 16);
+
+	return group;
+}
