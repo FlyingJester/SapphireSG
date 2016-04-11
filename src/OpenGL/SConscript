@@ -2,7 +2,11 @@ import os
 Import("environment")
 
 source = [
-	"opengl.c",
+	"opengl_backend.c",
+	"opengl_context.c",
+	"opengl_image.c",
+	"opengl_shape.c",
+	"opengl.c"
 ]
 
 if os.name == "posix":
@@ -10,6 +14,6 @@ if os.name == "posix":
 else:
 	libs = "OpenGL32"
 
-libsgopengl = environment.StaticLibrary("sgopengl", source, LIBS = libs)
+libopenglsg = environment.StaticLibrary("openglsg", source, LIBS = libs)
 
-Return("libsgopengl")
+Return("libopenglsg")
