@@ -7,7 +7,7 @@ source = [
 
 if os.name == "posix":
 	libs = "GL"
-else
+else:
 	libs = "OpenGL32"
 
 libsgopengl = environment.StaticLibrary("sgopengl", source, LIBS = libs)

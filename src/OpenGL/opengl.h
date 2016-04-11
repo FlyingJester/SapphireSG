@@ -17,7 +17,7 @@
 #ifdef __APPLE__
 typedef long GLintptr;
 typedef long GLsizeiptr;
-#else
+#elif defined _WIN32
 typedef intptr_t GLintptr;
 typedef size_t GLsizeiptr;
 #endif

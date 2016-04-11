@@ -82,7 +82,7 @@ start_queue:
 start_group:
 
 		/* An empty group indicates the end of the queue element. */
-		if (group = SG_TakeGroupFromQueue(kit, &queue)) {
+		if ( ( group = SG_TakeGroupFromQueue(kit, &queue) ) ) {
 			SG_DrawGroup(kit->ctx, group);
 			goto start_group;
 		}

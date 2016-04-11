@@ -16,7 +16,15 @@ source = [
 	monitor_src
 ]
 
-backends = ["Vulkan", "OpenGL"]
+backends = ["Software"]
+
+conf = Configure(environment)
+if conf.CheckCHeader("vulkan/vulkan.h"):
+    backends += ["Vulkan"]
+if conf.CheckCHeader("GL/gl.h"):
+    backends += ["OpenGL"]
+
+conf.Finish()
 
 libs = SConscript(dirs = backends, exports = ["environment"])
 

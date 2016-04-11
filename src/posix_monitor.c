@@ -1,6 +1,7 @@
 #include "monitor.h"
-
 #include <assert.h>
+#include <stdlib.h>
+#include <pthread.h>
 
 struct SapphireSG_Monitor {
 	pthread_mutex_t mutex;
