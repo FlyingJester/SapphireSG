@@ -24,7 +24,14 @@ if conf.CheckCHeader("vulkan/vulkan.h"):
 if conf.CheckCHeader("GL/gl.h"):
     backends += ["OpenGL"]
 
+enable_egl = conf.CheckCHeader("EGL/egl.h")
+
 conf.Finish()
+
+if enable_egl:
+    environment.Append(CPPDEFINES="SAPPHIRESG_ENABLE_EGL")
+else:
+    environment.Append(CPPDEFINES="SAPPHIRESG_DISABLE_EGL")
 
 libs = SConscript(dirs = backends, exports = ["environment"])
 
