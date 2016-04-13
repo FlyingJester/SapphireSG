@@ -1,11 +1,17 @@
 Import("environment")
 
 import os
+import sys
 
 if os.name == "posix":
 	monitor_src = "posix_monitor.c"
+	if sys.platform == "msys":
+		gl_lib = "OpenGL32"
+	else:
+		gl_lib = "GL"
 else:
 	monitor_src = "win32_monitor.c"
+	gl_lib = "OpenGL32"
 
 source = [
 	"group.c",
@@ -16,12 +22,17 @@ source = [
 	monitor_src
 ]
 
-backends = ["Software"]
+backends = [] # ["Software"]
+libs = []
+
+if sys.platform == "msys":
+	libs += ["GDI32", "user32", "winmm", "imm32", "ole32", "oleaut32"]
 
 conf = Configure(environment)
 if conf.CheckCHeader("vulkan/vulkan.h"):
     backends += ["Vulkan"]
 if conf.CheckCHeader("GL/gl.h"):
+    libs += [gl_lib]
     backends += ["OpenGL"]
 
 enable_egl = conf.CheckCHeader("EGL/egl.h")
@@ -33,7 +44,7 @@ if enable_egl:
 else:
     environment.Append(CPPDEFINES="SAPPHIRESG_DISABLE_EGL")
 
-libs = SConscript(dirs = backends, exports = ["environment"])
+libs += SConscript(dirs = backends, exports = ["environment"])
 
 libsapphiresg = environment.SharedLibrary("sapphiresg", source, LIBS = libs)
 

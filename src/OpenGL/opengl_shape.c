@@ -55,7 +55,9 @@ void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shap
 	float *const buffer1 = use_alloc ? alloca(len1) : malloc(len1);
 	float *const buffer2 = use_alloc ? alloca(len2) : malloc(len2);
 #else
-	unsigned char *const buffer = malloc(len);
+	unsigned char *const buffer0 = malloc(len0);
+	float *const buffer1 = malloc(len1);
+	float *const buffer2 = malloc(len2);
 #endif
 	
 	unsigned long i = 0;
@@ -94,7 +96,10 @@ void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shap
 		free(buffer2);
 	}
 #else
-	free(buffer);
+
+	free(buffer0);
+	free(buffer1);
+	free(buffer2);
 #endif
 }
 
