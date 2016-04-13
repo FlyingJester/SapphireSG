@@ -11,3 +11,15 @@ struct SapphireSG_ContextGuts *OpenGLSG_CreateContext() {
 
 	return guts;
 }
+
+void OpenGLSG_SetCoordinateSpace(const struct SapphireSG_Context *ctx, unsigned w, unsigned h,
+	float left, float right, float top, float bottom, float nearz, float farz) {
+
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(left, right, bottom, top, nearz, farz);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+}

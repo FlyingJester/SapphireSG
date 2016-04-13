@@ -107,6 +107,13 @@ struct SapphireSG_Context *SG_CreateContext(enum SG_Backend backend SG_DEF_ARG(S
 SAPPHIRESG_API_EXPORT
 enum SG_Backend SG_GetBackend(const struct SapphireSG_Context *ctx, unsigned *maj SG_DEF_ARG(NULL), unsigned *min SG_DEF_ARG(NULL));
 
+SAPPHIRESG_API_EXPORT
+void SG_SetCoordinateDistance(const struct SapphireSG_Context *ctx, unsigned w, unsigned h);
+
+SAPPHIRESG_API_EXPORT
+void SG_SetCoordinateSpace(const struct SapphireSG_Context *ctx, unsigned w, unsigned h,
+	float left, float right, float top, float bottom, float nearz, float farz);
+
 /**
  * @brief Destroys a Context and frees the associated context memory.
  *

@@ -74,3 +74,15 @@ void SG_EGLSceneEndCallback(struct SapphireSG_Context *ctx, void *arg) {
 	eglSwapBuffers(eglGetCurrentDisplay(), (EGLSurface)arg);
 #endif
 }
+
+SAPPHIRESG_API_EXPORT
+void SG_SetCoordinateDistance(const struct SapphireSG_Context *ctx, unsigned w, unsigned h) {
+	SG_SetCoordinateSpace(ctx, w, h, 0.0f, (float)w, 0.0f, (float)h, -1.0f, 1.0f);
+
+}
+
+SAPPHIRESG_API_EXPORT
+void SG_SetCoordinateSpace(const struct SapphireSG_Context *ctx, unsigned w, unsigned h,
+	float left, float right, float top, float bottom, float nearz, float farz) {
+	ctx->SetCoordinateSpace(ctx, w, h, left, right, top, bottom, nearz, farz);
+}

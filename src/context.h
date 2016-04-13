@@ -12,6 +12,10 @@ struct SapphireSG_Context {
 	void *swap_window_arg;
 
 	struct SapphireSG_ContextGuts *(*CreateContext)();
+
+	void (*SetCoordinateSpace)(const struct SapphireSG_Context *ctx, unsigned w, unsigned h,
+		float left, float right, float top, float bottom, float near, float far);
+
 	struct SapphireSG_ShapeGuts *(*CreateShape)(struct SapphireSG_Context *);
 	struct SapphireSG_ImageGuts *(*CreateImage)(struct SapphireSG_Context *, const unsigned char *pixels, unsigned long w, unsigned long h);
 	void(*DestroyImage)(struct SapphireSG_Context *, struct SapphireSG_Image *);

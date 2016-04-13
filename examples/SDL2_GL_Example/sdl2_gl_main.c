@@ -47,14 +47,9 @@ int main(int argc, char *argv[]) {
 
 	sg_ctx = SG_CreateContext(SG_OpenGL, 2, 0);
 
-	glClearColor(0, 0, 0, 0xFF);
+	SG_SetCoordinateDistance(sg_ctx, 800, 600);
 
-	glViewport(0, 0, 800, 600);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, 800, 600, 0, -1, 1);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glClearColor(0, 0, 0, 0xFF);
 
 	{
 

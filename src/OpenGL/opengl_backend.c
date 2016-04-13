@@ -9,6 +9,7 @@ void OpenGLSG_InitContext(struct SapphireSG_Context *ctx) {
 	assert(ctx);
 
 	ctx->CreateContext = OpenGLSG_CreateContext;
+	ctx->SetCoordinateSpace = OpenGLSG_SetCoordinateSpace;
 	ctx->CreateShape = OpenGLSG_CreateShape;
 	ctx->CreateImage = OpenGLSG_CreateImage;
 	ctx->DestroyImage = OpenGLSG_DestroyImage;
