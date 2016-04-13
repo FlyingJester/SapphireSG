@@ -53,11 +53,17 @@ NAME = TYPING OpenGL_LoadProcAddres( #NAME )
 CHECK_FOR_PROCESS_NON_FATAL( #NAME );\
 NAME = TYPING OpenGL_LoadProcAddres( #NAME )
 
+#ifdef _WIN32
+static void *WGL_LoadProcAddres(const char *n) {
+	return wglGetProcAddress(n);
+}
+#endif
+
 void OpenGLSG_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *)) {
 
 	if (OpenGL_LoadProcAddres == NULL) {
 #ifdef _WIN32
-		OpenGL_LoadProcAddres = (void *(__stdcall *)(const char *))wglGetProcAddress;
+		OpenGL_LoadProcAddres = WGL_LoadProcAddres;
 #endif
 
 	}

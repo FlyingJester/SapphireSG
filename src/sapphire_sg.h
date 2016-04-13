@@ -252,7 +252,7 @@ bool SG_SetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *g
  * @see SG_GetGroupShapeCapacity
  */
 SAPPHIRESG_API_EXPORT
-struct SapphireSG_Group *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group, unsigned i);
+struct SapphireSG_Shape *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group, unsigned i);
 
 /**
  * @brief Creates an Image
@@ -264,10 +264,22 @@ struct SapphireSG_Group *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct
  * @return Image if creation is successful, NULL otherwise.
  * @see SG_GetImageSize
  */
-
-
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Image *SG_CreateImage(struct SapphireSG_Context *ctx, const unsigned char *pixels, unsigned w, unsigned h);
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Image *SG_CreateSolidColorImageV(struct SapphireSG_Context *ctx, const unsigned char *rgba);
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Image *SG_CreateSolidColorImage(struct SapphireSG_Context *ctx,
+	unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
+#define SG_CreateBlackImage(CTX_)  SG_CreateSolidColorImageV(CTX_, NULL)
+#define SG_CreateWhiteImage(CTX_)  SG_CreateSolidColorImage(CTX_, 0xFF, 0xFF, 0xFF, 0xFF)
+#define SG_CreateClearImage(CTX_)  SG_CreateSolidColorImage(CTX_, 0u,   0u,   0u,   0xFF)
+#define SG_CreateRedImage(CTX_)    SG_CreateSolidColorImage(CTX_, 0xFF, 0u,   0u,   0xFF)
+#define SG_CreateGreenImage(CTX_)  SG_CreateSolidColorImage(CTX_, 0u,   0xFF, 0u,   0xFF)
+#define SG_CreateBlueImage(CTX_)   SG_CreateSolidColorImage(CTX_, 0u,   0u, 0xFF,   0xFF)
 
 SAPPHIRESG_API_EXPORT
 bool SG_DestroyImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im);
@@ -408,4 +420,20 @@ bool SG_SetShapeVertexTexturePosition(struct SapphireSG_Context *ctx, struct Sap
 
 SAPPHIRESG_API_EXPORT
 bool SG_GetShapeVertexTexturePosition(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
-    unsigned i, float *u SG_DEF_ARG(NULL), float *v SG_DEF_ARG(NULL));
+	unsigned i, float *u SG_DEF_ARG(NULL), float *v SG_DEF_ARG(NULL));
+
+SAPPHIRESG_API_EXPORT
+bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, const unsigned char *rgba);
+
+SAPPHIRESG_API_EXPORT
+bool SG_SetShapeVertexColor(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
+
+SAPPHIRESG_API_EXPORT
+bool SG_GetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, unsigned char *rgba);
+
+SAPPHIRESG_API_EXPORT
+bool SG_GetShapeVertexColor(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, unsigned char *r, unsigned char *g, unsigned char *b, unsigned char *a);

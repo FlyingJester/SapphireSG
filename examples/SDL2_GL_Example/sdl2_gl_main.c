@@ -1,22 +1,14 @@
 #include "../../src/sapphire_sg.h"
+#include <assert.h>
 
 #ifdef _WIN32
 #include "SDL2/SDL.h"
 #include <Windows.h>
-#undef main
-#define main WinMain
 #else
 #include <SDL2/SDL.h>
 #endif
 
 #include <GL/gl.h>
-
-struct WindowData {
-
-	SDL_GLContext ctx, far_ctx;
-	SDL_Window *window;
-
-} data;
 
 static void SetSDL2OpenGLAttribs() {
 
@@ -30,57 +22,83 @@ static void SetSDL2OpenGLAttribs() {
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
 
-}
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
 
-static void scene_end_callback(struct SapphireSG_Context *ctx, void *arg) {
-	struct WindowData *win_data = (struct WindowData *)arg;
-
-	SDL_GL_SwapWindow(win_data->window);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-}
-
-static void init_gl_context(void *arg) {
-	struct WindowData *win_data = (struct WindowData *)arg;
-	SDL_GL_MakeCurrent(win_data->window, win_data->far_ctx);
+/*	SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
+*/
 }
 
 int main(int argc, char *argv[]) {
+	SDL_Window *window;
+	SDL_GLContext gl_ctx;
+	struct SapphireSG_Context *sg_ctx;
 
-	SDL_Init(SDL_INIT_VIDEO);
-
-	SetSDL2OpenGLAttribs();
-
-	data.window = SDL_CreateWindow("SDL2 GL SapphireSG example", 32, 32, 800, 600, SDL_WINDOW_OPENGL);
-
-/* This will be used for multi-threaded rendering
-
-	data.far_ctx = SDL_GL_CreateContext(data.window);
-	SDL_GL_MakeCurrent(data.window, data.far_ctx);
-
-*/
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
 	SetSDL2OpenGLAttribs();
-	data.ctx = SDL_GL_CreateContext(data.window);
-	SDL_GL_MakeCurrent(data.window, data.ctx);
 
-	struct SapphireSG_Context *const ctx = SG_CreateContext(SG_OpenGL, 2, 0);
+	window = SDL_CreateWindow("SDL2 GL SapphireSG example", 32, 32, 800, 600,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS);
+
+	SetSDL2OpenGLAttribs();
+	gl_ctx = SDL_GL_CreateContext(window);
+	SDL_GL_MakeCurrent(window, gl_ctx);
+
+	sg_ctx = SG_CreateContext(SG_OpenGL, 2, 0);
 
 	glClearColor(0, 0, 0, 0xFF);
 
 	{
 
-		struct SapphireSG_Group *const group = SG_CreateGroup(ctx);
-		struct SapphireSG_Shape *const shape = SG_CreateShape(ctx);
-		SDL_Event e;
-		do {
-			SDL_WaitEventTimeout(&e, 16);
+		struct SapphireSG_Group *const group = SG_CreateGroup(sg_ctx);
+		struct SapphireSG_Shape *const shape = SG_CreateShape(sg_ctx);
+		struct SapphireSG_Image *const image = SG_CreateWhiteImage(sg_ctx);
 
+		unsigned char white[4] = { 0xFF, 0xFF, 0xFF, 0xFF };
+
+		assert(group);
+		assert(shape);
+		assert(image);
+
+		SG_SetShapeVertexCapacity(sg_ctx, shape, 3);
+
+		SG_SetShapeVertexPosition(sg_ctx, shape, 0, 0.0, -1.0, 1.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 1, 1.0, 0.0, 1.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 2, -1.0, 0.0, 1.0);
+
+		SG_SetShapeVertexColorV(sg_ctx, shape, 0, white);
+		SG_SetShapeVertexColorV(sg_ctx, shape, 1, white);
+		SG_SetShapeVertexColorV(sg_ctx, shape, 2, white);
+
+		SG_SetShapeImage(sg_ctx, shape, image);
+
+		SG_SetGroupShapeCapacity(sg_ctx, group, 1);
+		SG_SetGroupShape(sg_ctx, group, 0, shape);
+
+		SDL_Event e;
+
+		SDL_ShowWindow(window);
+
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+		glViewport(0, 0, 800, 600);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(-1, 1, 1, -1, -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+
+		do {
+			glFinish();
+			glClear(GL_COLOR_BUFFER_BIT);
+			SDL_WaitEventTimeout(&e, 16);
+			SG_DrawGroup(sg_ctx, group);
+			SDL_GL_SwapWindow(window);
 		} while (e.type != SDL_QUIT);
 
 
 	}
-
+	return EXIT_SUCCESS;
 }

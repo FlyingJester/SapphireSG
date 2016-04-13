@@ -21,11 +21,14 @@
 
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Context *SG_CreateContext(enum SG_Backend backend, unsigned maj, unsigned min) {
-	struct SapphireSG_Context *const ctx = malloc(sizeof(struct SapphireSG_Context));
+	struct SapphireSG_Context *const ctx = calloc(sizeof(struct SapphireSG_Context), 1);
 	OpenGLSG_InitContext(ctx);
+
 	ctx->guts = ctx->CreateContext();
 
 	ctx->backend = backend;
+
+
 
 	return ctx;
 }

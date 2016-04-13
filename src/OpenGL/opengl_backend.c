@@ -14,5 +14,6 @@ void OpenGLSG_InitContext(struct SapphireSG_Context *ctx) {
 	ctx->DestroyImage = OpenGLSG_DestroyImage;
 	ctx->BindImage = OpenGLSG_BindImage;
 	ctx->DrawShape = OpenGLSG_DrawShape;
+	ctx->UpdateShape = OpenGLSG_UpdateShape;
 
 }

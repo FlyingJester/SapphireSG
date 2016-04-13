@@ -131,3 +131,93 @@ struct SapphireSG_Shape *SG_CreateShape(struct SapphireSG_Context *ctx) {
 
 	return shape;
 }
+
+SAPPHIRESG_API_EXPORT
+bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, const unsigned char *rgba) {
+
+	assert(ctx);
+	assert(shape);
+
+	assert(i < shape->num_vertices);
+	{
+		unsigned char *const color = shape->vertices[i].color;
+		assert(color);
+
+		if (rgba) {
+			color[0] = rgba[0];
+			color[1] = rgba[1];
+			color[2] = rgba[2];
+			color[3] = rgba[3];
+		}
+		else {
+			color[0] = color[1] = color[2] = color[3] = 0;
+		}
+	}
+	return true;
+}
+
+SAPPHIRESG_API_EXPORT
+bool SG_SetShapeVertexColor(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
+
+	assert(ctx);
+	assert(shape);
+
+	assert(i < shape->num_vertices);
+	{
+		unsigned char *const color = shape->vertices[i].color;
+		assert(color);
+
+		color[0] = r;
+		color[1] = g;
+		color[2] = b;
+		color[3] = a;
+
+	}
+	return true;
+}
+
+SAPPHIRESG_API_EXPORT
+bool SG_GetShapeVertexColor(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, unsigned char *r, unsigned char *g, unsigned char *b, unsigned char *a) {
+	assert(ctx);
+	assert(shape);
+
+	assert(i < shape->num_vertices);
+	{
+		unsigned char *const color = shape->vertices[i].color;
+
+		if (r)
+			*r = color[0];
+		if (g)
+			*g = color[1];
+		if (b)
+			*b = color[2];
+		if (a)
+			*a = color[3];
+
+	}
+	return true;
+}
+
+SAPPHIRESG_API_EXPORT
+bool SG_GetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+	unsigned i, unsigned char *rgba) {
+	assert(ctx);
+	assert(shape);
+
+	assert(i < shape->num_vertices);
+	if (rgba) {
+		unsigned char *const color = shape->vertices[i].color;
+		rgba[0] = color[0];
+		rgba[1] = color[1];
+		rgba[2] = color[2];
+		rgba[3] = color[3];
+
+		return true;
+	}
+
+	return false;
+}
+

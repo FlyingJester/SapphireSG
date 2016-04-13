@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <malloc.h>
 
-#define PREDEFINED_GL_MODES 4
+#define PREDEFINED_GL_MODES 5
 
 /**
  * Each vertex is four bytes for the color (r, g, b, a),
@@ -18,14 +18,15 @@
 #define VERTEX_SIZE (COLOR_COMPONENTS + (5 * sizeof(float)))
 
 #define COLOR_SIZE (COLOR_COMPONENTS * 1)
+#define COORD_SIZE (3 * sizeof(float))
+#define TEX_COORD_SIZE (2 * sizeof(float))
+
 #define COLOR_OFFSET 0
 #define COLOR_STRIDE (VERTEX_SIZE - COLOR_SIZE)
 
-#define COORD_SIZE (3 * sizeof(float))
 #define COORD_OFFSET COLOR_SIZE
-#define COORD_STRIDE (VERTEX_SIZE - COORD_SIZE)
+#define COORD_STRIDE (VERTEX_SIZE - COLOR_SIZE)
 
-#define TEX_COORD_SIZE (2 * sizeof(float))
 #define TEX_COORD_OFFSET (COLOR_SIZE + COORD_SIZE)
 #define TEX_COORD_STRIDE (VERTEX_SIZE - TEX_COORD_SIZE)
 
@@ -33,6 +34,7 @@ static const unsigned gl_draw_mode[PREDEFINED_GL_MODES] = {
 	GL_TRIANGLE_STRIP,
 	GL_POINTS,
 	GL_LINE_LOOP,
+	GL_TRIANGLE_STRIP,
 	GL_TRIANGLE_FAN
 };
 
@@ -78,10 +80,11 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	if (shape->num_vertices == 0)
 		return;
 
-	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer);
-
-	glEnableClientState(GL_COLOR_ARRAY);
+/*	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+*/
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer);
 	
 	glColorPointer(4, GL_UNSIGNED_BYTE, COLOR_STRIDE, NULL);
 	glVertexPointer(3, GL_FLOAT, COORD_STRIDE, (unsigned char *)COORD_OFFSET);
@@ -92,7 +95,9 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	else
 		glDrawArrays(*gl_draw_mode, 0, 2);
 
-	glDisableClientState(GL_COLOR_ARRAY);
+/*	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+*/
 
 }

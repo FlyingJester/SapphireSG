@@ -4,6 +4,6 @@
 struct SapphireSG_Group {
 
 	unsigned long num_shapes, shapes_capacity;
-	struct SapphireSG_Shape *shapes;
+	struct SapphireSG_Shape **shapes;
 
 };
