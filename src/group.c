@@ -1,5 +1,7 @@
 #include "group.h"
+#include "image.h"
 #include "shape.h"
+#include "context.h"
 #include <assert.h>
 
 SAPPHIRESG_API_EXPORT
@@ -11,6 +13,8 @@ bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group
 	assert(group);
 
 	while (i < group->num_shapes) {
+
+		ctx->BindImage(ctx, group->shapes[i]->image);
 		if (!SG_DrawShape(ctx, group->shapes[i]))
 			ok = false;
 		i++;

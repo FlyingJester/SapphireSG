@@ -61,6 +61,7 @@ void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shap
 #ifndef SAPPHIRESG_DISABLE_ALLOCA
 	const bool use_alloc = len < 1024;
 	unsigned char *const buffer = use_alloc ? alloca(len) : malloc(len);
+	float z[VERTEX_SIZE/sizeof(float)];
 #else
 	unsigned char *const buffer = malloc(len);
 #endif
@@ -73,6 +74,9 @@ void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shap
 		i++;
 	}
 
+	memcpy(z, buffer, VERTEX_SIZE);
+
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer);
 	glBufferData(GL_ARRAY_BUFFER, len, buffer, GL_STATIC_DRAW);
 
 #ifndef SAPPHIRESG_DISABLE_ALLOCA
@@ -88,10 +92,10 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	if (shape->num_vertices == 0)
 		return;
 
-/*	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-*/
+	
 	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer);
 	
 	glColorPointer(4, GL_UNSIGNED_BYTE, COLOR_STRIDE, NULL);
@@ -103,9 +107,8 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	else
 		glDrawArrays(*gl_draw_mode, 0, 2);
 
-/*	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-*/
 
 }

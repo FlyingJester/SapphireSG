@@ -423,11 +423,11 @@ bool SG_GetShapeVertexTexturePosition(struct SapphireSG_Context *ctx, const stru
 	unsigned i, float *u SG_DEF_ARG(NULL), float *v SG_DEF_ARG(NULL));
 
 SAPPHIRESG_API_EXPORT
-bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape,
 	unsigned i, const unsigned char *rgba);
 
 SAPPHIRESG_API_EXPORT
-bool SG_SetShapeVertexColor(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+bool SG_SetShapeVertexColor(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape,
 	unsigned i, unsigned char r, unsigned char g, unsigned char b, unsigned char a);
 
 SAPPHIRESG_API_EXPORT

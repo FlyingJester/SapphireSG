@@ -8,6 +8,8 @@ bool SG_SetShapeVertexCapacity(struct SapphireSG_Context *ctx, struct SapphireSG
     assert(ctx);
     assert(shape);
 
+	shape->dirty = true;
+
     shape->num_vertices = n;
     if (shape->vertices_capacity < n){
         do {
@@ -32,6 +34,8 @@ bool SG_SetShapeImage(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *s
     assert(ctx);
     assert(shape);
     assert(im);
+
+	shape->dirty = true;
     
     shape->image = im;
     return true;
@@ -133,13 +137,15 @@ struct SapphireSG_Shape *SG_CreateShape(struct SapphireSG_Context *ctx) {
 }
 
 SAPPHIRESG_API_EXPORT
-bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape,
 	unsigned i, const unsigned char *rgba) {
 
 	assert(ctx);
 	assert(shape);
 
 	assert(i < shape->num_vertices);
+
+	shape->dirty = true;
 	{
 		unsigned char *const color = shape->vertices[i].color;
 		assert(color);
@@ -158,13 +164,15 @@ bool SG_SetShapeVertexColorV(struct SapphireSG_Context *ctx, const struct Sapphi
 }
 
 SAPPHIRESG_API_EXPORT
-bool SG_SetShapeVertexColor(struct SapphireSG_Context *ctx, const struct SapphireSG_Shape *shape,
+bool SG_SetShapeVertexColor(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape,
 	unsigned i, unsigned char r, unsigned char g, unsigned char b, unsigned char a) {
 
 	assert(ctx);
 	assert(shape);
 
 	assert(i < shape->num_vertices);
+
+	shape->dirty = true;
 	{
 		unsigned char *const color = shape->vertices[i].color;
 		assert(color);

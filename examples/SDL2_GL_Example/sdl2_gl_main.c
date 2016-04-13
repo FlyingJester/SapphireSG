@@ -49,6 +49,13 @@ int main(int argc, char *argv[]) {
 
 	glClearColor(0, 0, 0, 0xFF);
 
+	glViewport(0, 0, 800, 600);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, 800, 600, 0, -1, 1);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
 	{
 
 		struct SapphireSG_Group *const group = SG_CreateGroup(sg_ctx);
@@ -63,9 +70,13 @@ int main(int argc, char *argv[]) {
 
 		SG_SetShapeVertexCapacity(sg_ctx, shape, 3);
 
-		SG_SetShapeVertexPosition(sg_ctx, shape, 0, 0.0, -1.0, 1.0);
-		SG_SetShapeVertexPosition(sg_ctx, shape, 1, 1.0, 0.0, 1.0);
-		SG_SetShapeVertexPosition(sg_ctx, shape, 2, -1.0, 0.0, 1.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 0, 200.0, 200.0, 1.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 1, 400.0, 100.0, 1.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 2, 200.0, 300.0, 1.0);
+
+		SG_SetShapeVertexTexturePosition(sg_ctx, shape, 0, 0.0, 0.0);
+		SG_SetShapeVertexTexturePosition(sg_ctx, shape, 1, 1.0, 0.0);
+		SG_SetShapeVertexTexturePosition(sg_ctx, shape, 2, 0.0, 1.0);
 
 		SG_SetShapeVertexColorV(sg_ctx, shape, 0, white);
 		SG_SetShapeVertexColorV(sg_ctx, shape, 1, white);
@@ -80,21 +91,19 @@ int main(int argc, char *argv[]) {
 
 		SDL_ShowWindow(window);
 
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_CULL_FACE);
 
-		glViewport(0, 0, 800, 600);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(-1, 1, 1, -1, -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+		glClear(GL_COLOR_BUFFER_BIT);
 		do {
-			glFinish();
-			glClear(GL_COLOR_BUFFER_BIT);
+
 			SDL_WaitEventTimeout(&e, 16);
-			SG_DrawGroup(sg_ctx, group);
+
+			SG_DrawGroup(sg_ctx, group); 
+
 			SDL_GL_SwapWindow(window);
 		} while (e.type != SDL_QUIT);
 
