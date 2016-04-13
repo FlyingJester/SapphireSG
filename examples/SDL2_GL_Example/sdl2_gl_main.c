@@ -70,9 +70,9 @@ int main(int argc, char *argv[]) {
 
 		SG_SetShapeVertexCapacity(sg_ctx, shape, 3);
 
-		SG_SetShapeVertexPosition(sg_ctx, shape, 0, 200.0, 200.0, 1.0);
-		SG_SetShapeVertexPosition(sg_ctx, shape, 1, 400.0, 100.0, 1.0);
-		SG_SetShapeVertexPosition(sg_ctx, shape, 2, 200.0, 300.0, 1.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 0, 0.0,   0.0, 0.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 1, 400.0, 0.0, 0.0);
+		SG_SetShapeVertexPosition(sg_ctx, shape, 2, 0.0, 400.0, 0.0);
 
 		SG_SetShapeVertexTexturePosition(sg_ctx, shape, 0, 0.0, 0.0);
 		SG_SetShapeVertexTexturePosition(sg_ctx, shape, 1, 1.0, 0.0);
@@ -92,13 +92,17 @@ int main(int argc, char *argv[]) {
 		SDL_ShowWindow(window);
 
 		glEnable(GL_TEXTURE_2D);
-		glEnable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glClear(GL_COLOR_BUFFER_BIT);
 		do {
+
+			assert(glGetError() == GL_NO_ERROR);
+
+			glClear(GL_COLOR_BUFFER_BIT);
 
 			SDL_WaitEventTimeout(&e, 16);
 

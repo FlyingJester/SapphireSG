@@ -3,7 +3,7 @@
 #include "../backend.h"
 
 struct SapphireSG_ShapeGuts {
-	GLuint buffer;
+	GLuint buffer[3];
 };
 
 struct SapphireSG_ShapeGuts *OpenGLSG_CreateShape(struct SapphireSG_Context *ctx);

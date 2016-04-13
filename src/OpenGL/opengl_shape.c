@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <assert.h>
 
 #ifdef _WIN32
 #include <malloc.h>
@@ -11,32 +12,19 @@
 #define SAPPHIRESG_DISABLE_ALLOCA 1
 #endif
 
-#define PREDEFINED_GL_MODES 5
-
-/**
- * Each vertex is four bytes for the color (r, g, b, a),
- * and five floats for the coords (x, y, z, u, v).
- * Bytewise, it is defined as so:
- * Byte:	0 | 1 | 2 | 3 |  4-7  |  8-11 | 12-15 | 16-19 | 20-23 |
- * Meaning: R | G | B | A |   X   |   Y   |   Z   |   U   |   V   |
- * Type:    UB| UB| UB| UB| Float | Float | Float | Float | Float |
- */
-
 #define COLOR_COMPONENTS 4
-#define VERTEX_SIZE (COLOR_COMPONENTS + (5 * sizeof(float)))
+#define COLOR_TYPE_SIZE 1
+#define COLOR_SIZE 4
 
-#define COLOR_SIZE (COLOR_COMPONENTS * 1)
-#define COORD_SIZE (3 * sizeof(float))
-#define TEX_COORD_SIZE (2 * sizeof(float))
+#define COORD_COMPONENTS 3
+#define COORD_TYPE_SIZE sizeof(float)
+#define COORD_SIZE (COLOR_COMPONENTS * COORD_TYPE_SIZE)
 
-#define COLOR_OFFSET 0
-#define COLOR_STRIDE (VERTEX_SIZE - COLOR_SIZE)
+#define TEX_COORD_COMPONENTS 2
+#define TEX_COORD_TYPE_SIZE sizeof(float)
+#define TEX_COORD_SIZE (TEX_COORD_COMPONENTS * TEX_COORD_TYPE_SIZE)
 
-#define COORD_OFFSET COLOR_SIZE
-#define COORD_STRIDE (VERTEX_SIZE - COLOR_SIZE)
-
-#define TEX_COORD_OFFSET (COLOR_SIZE + COORD_SIZE)
-#define TEX_COORD_STRIDE (VERTEX_SIZE - TEX_COORD_SIZE)
+#define PREDEFINED_GL_MODES 5
 
 static const unsigned gl_draw_mode[PREDEFINED_GL_MODES] = {
 	GL_TRIANGLE_STRIP,
@@ -49,7 +37,7 @@ static const unsigned gl_draw_mode[PREDEFINED_GL_MODES] = {
 struct SapphireSG_ShapeGuts *OpenGLSG_CreateShape(struct SapphireSG_Context *ctx) {
 	struct SapphireSG_ShapeGuts *guts = malloc(sizeof(struct SapphireSG_ShapeGuts));
 
-	glGenBuffers(1, &guts->buffer);
+	glGenBuffers(3, guts->buffer);
 
 	return guts;
 
@@ -57,11 +45,15 @@ struct SapphireSG_ShapeGuts *OpenGLSG_CreateShape(struct SapphireSG_Context *ctx
 
 void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
 	
-	const unsigned long len = shape->num_vertices * VERTEX_SIZE;
+	const unsigned long len = shape->num_vertices,
+		len0 = len * COLOR_SIZE,
+		len1 = len * COORD_SIZE,
+		len2 = len * TEX_COORD_SIZE;
 #ifndef SAPPHIRESG_DISABLE_ALLOCA
-	const bool use_alloc = len < 1024;
-	unsigned char *const buffer = use_alloc ? alloca(len) : malloc(len);
-	float z[VERTEX_SIZE/sizeof(float)];
+	const bool use_alloc = len < 32;
+	unsigned char *const buffer0 = use_alloc ? alloca(len0) : malloc(len0);
+	float *const buffer1 = use_alloc ? alloca(len1) : malloc(len1);
+	float *const buffer2 = use_alloc ? alloca(len2) : malloc(len2);
 #else
 	unsigned char *const buffer = malloc(len);
 #endif
@@ -69,19 +61,38 @@ void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shap
 	unsigned long i = 0;
 
 	while (i < shape->num_vertices) {
-		memcpy(buffer + (i*VERTEX_SIZE), shape->vertices[i].color, COLOR_SIZE);
-		memcpy(buffer + (i*VERTEX_SIZE) + COORD_OFFSET, shape->vertices[i].data, COORD_SIZE + TEX_COORD_SIZE);
+		buffer0[(i * 4) + 0] = shape->vertices[i].color[0];
+		buffer0[(i * 4) + 1] = shape->vertices[i].color[1];
+		buffer0[(i * 4) + 2] = shape->vertices[i].color[2];
+		buffer0[(i * 4) + 3] = shape->vertices[i].color[3];
+
+		buffer1[(i * 3) + 0] = shape->vertices[i].data[0];
+		buffer1[(i * 3) + 1] = shape->vertices[i].data[1];
+		buffer1[(i * 3) + 2] = shape->vertices[i].data[2];
+
+		buffer2[(i * 2) + 0] = shape->vertices[i].data[0];
+		buffer2[(i * 2) + 1] = shape->vertices[i].data[1];
+
 		i++;
 	}
 
-	memcpy(z, buffer, VERTEX_SIZE);
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer[0]);
+	glBufferData(GL_ARRAY_BUFFER, len0, buffer0, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer);
-	glBufferData(GL_ARRAY_BUFFER, len, buffer, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer[1]);
+	glBufferData(GL_ARRAY_BUFFER, len1, buffer1, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer[2]);
+	glBufferData(GL_ARRAY_BUFFER, len2, buffer2, GL_STATIC_DRAW);
+
+	glFinish();
 
 #ifndef SAPPHIRESG_DISABLE_ALLOCA
-	if (!use_alloc)
-		free(buffer);
+	if (!use_alloc) {
+		free(buffer0);
+		free(buffer1);
+		free(buffer2);
+	}
 #else
 	free(buffer);
 #endif
@@ -96,14 +107,18 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer);
-	
-	glColorPointer(4, GL_UNSIGNED_BYTE, COLOR_STRIDE, NULL);
-	glVertexPointer(3, GL_FLOAT, COORD_STRIDE, (unsigned char *)COORD_OFFSET);
-	glTexCoordPointer(2, GL_FLOAT, TEX_COORD_STRIDE, (unsigned char *)TEX_COORD_OFFSET);
+
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer[0]);
+	glColorPointer(COLOR_COMPONENTS, GL_UNSIGNED_BYTE, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer[1]);
+	glVertexPointer(COORD_COMPONENTS, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, shape->guts->buffer[2]);
+	glTexCoordPointer(TEX_COORD_COMPONENTS, GL_FLOAT, 0, NULL);
 
 	if(shape->num_vertices < PREDEFINED_GL_MODES)
-		glDrawArrays(gl_draw_mode[shape->num_vertices], 0, 2);
+		glDrawArrays(gl_draw_mode[shape->num_vertices], 0, 3);
 	else
 		glDrawArrays(*gl_draw_mode, 0, 2);
 
