@@ -1,7 +1,15 @@
 #include "opengl_shape.h"
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+
+#ifdef _WIN32
 #include <malloc.h>
+#elif defined __linux__ || defined __FreeBSD__ || defined __APPLE__
+#include <alloca.h>
+#else
+#define SAPPHIRESG_DISABLE_ALLOCA 1
+#endif
 
 #define PREDEFINED_GL_MODES 5
 

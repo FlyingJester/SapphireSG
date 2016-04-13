@@ -1,4 +1,5 @@
 #pragma once
+#include "sapphire_sg.h"
 
 struct SapphireSG_ContextGuts;
 
