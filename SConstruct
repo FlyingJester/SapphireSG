@@ -17,3 +17,5 @@ else:
 	environment.Append(CCFLAGS = " /O2 /MD /Zi ", LINKFLAGS = " /DEBUG ")
 
 libsapphiresg = SConscript(dirs = ["src"], exports = ["environment"])
+
+examples = SConscript(dirs=["examples/SDL2_GL_Example"], exports=["environment", "libsapphiresg"])

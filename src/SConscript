@@ -32,10 +32,10 @@ conf = Configure(environment)
 if conf.CheckCHeader("vulkan/vulkan.h"):
     backends += ["Vulkan"]
 if conf.CheckCHeader("GL/gl.h"):
-    libs += [gl_lib]
+#    libs += [gl_lib]
     backends += ["OpenGL"]
 
-enable_egl = conf.CheckCHeader("EGL/egl.h")
+enable_egl = conf.CheckCHeader("EGL/egl.h") and False
 
 conf.Finish()
 
