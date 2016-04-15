@@ -274,7 +274,7 @@ bool SoftwareSG_AffineN(const struct SoftwareSG_ParametricTriangle *uv, float *u
     bc1.y = bc_seg->y1;
     bc2.x = bc_seg->x2;
     bc2.y = bc_seg->y2;
-/*
+
     if(SoftwareSG_PointEqual(&ab1, in)){
         u[0] = uv->u1;
         v[0] = uv->v1;
@@ -290,26 +290,17 @@ bool SoftwareSG_AffineN(const struct SoftwareSG_ParametricTriangle *uv, float *u
         v[0] = uv->v3;
         return true;
     }
-*/
+
     {
         const float ab_y_intercept = SoftwareSG_YIntercept(&ab1, ab_slope),
             bc_y_intercept = SoftwareSG_YIntercept(&bc1, bc_slope);
 
-        /* This is definitely correct. */
         SoftwareSG_SolveForIntersectionRay(&ab_pt, &ab1, ab_slope, in, bc_slope);
         SoftwareSG_SolveForIntersectionRay(&bc_pt, &bc1, bc_slope, in, ab_slope);
         
-        printf("\n[Debug]: ab_slope = %f, bc_slope = %f, ab_len = %f, bc_len = %f\n"\
-        "[Debug]: ab_y_intercept = %f, bc_y_intercept = %f\n",
-            ab_slope, bc_slope, ab_len, bc_len, ab_y_intercept, bc_y_intercept);
-        printf("[Debug]: in = {%f, %f}, ab_pt = {%f, %f}, bc_pt = {%f, %f}\n",
-            in->x, in->y, ab_pt.x, ab_pt.y, bc_pt.x, bc_pt.y);
-            
         const float ab_t = (SoftwareSG_Distance(ab_pt.x, ab_pt.y, bc1.x, bc1.y) / ab_len),
             bc_t = (SoftwareSG_Distance(bc_pt.x, bc_pt.y, bc2.x, bc2.y) / bc_len);
-        
-        printf("[Debug]: ab_t = %f, bc_t = %f\n", ab_t, bc_t);
-        
+
         u[0] = (bc_t * uv->u2) + ((1.0 - bc_t) * uv->u3);
         v[0] = (ab_t * uv->v1) + ((1.0 - ab_t) * uv->v2);
         
