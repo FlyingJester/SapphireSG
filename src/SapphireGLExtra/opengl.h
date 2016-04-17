@@ -16,11 +16,14 @@
 
 #ifndef GL_CURRENT_PROGRAM
 #ifdef GL_ACTIVE_PROGRAM
+
 #define GL_CURRENT_PROGRAM GL_ACTIVE_PROGRAM
 #else
 #define GL_CURRENT_PROGRAM 0x8B8D
 #endif
 #endif
+
+#define GL_CURRENT_PROGRAM 0x8B8D
 
 #ifdef __APPLE__
 typedef long GLintptr;

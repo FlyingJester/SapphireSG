@@ -4,7 +4,7 @@
 #include "opengl4_image.h"
 #include <assert.h>
 
-void OpenGLSG_InitContext(struct SapphireSG_Context *ctx) {
+void OpenGL4SG_InitContext(struct SapphireSG_Context *ctx) {
 
 	assert(ctx);
 

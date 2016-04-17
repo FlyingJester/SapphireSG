@@ -11,6 +11,7 @@ bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group
 	
 	assert(ctx);
 	assert(group);
+	assert(group->shader);
 
 	ctx->SetShaderParams(ctx, group->shader, &group->attribs);
 
@@ -99,4 +100,23 @@ struct SapphireSG_Shape *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct
 
 	return group->shapes[i];
 
+}
+
+SAPPHIRESG_API_EXPORT
+void SG_SetGroupShader(struct SapphireSG_Context *ctx,
+	struct SapphireSG_Group *group, struct SapphireSG_Shader *shader) {
+
+	assert(ctx);
+	assert(group);
+	assert(shader);
+
+	group->shader = shader;
+}
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Shader *SG_GetDefaultShader(struct SapphireSG_Context *ctx) {
+	struct SapphireSG_Shader *const shader = malloc(sizeof(struct SapphireSG_Shader));
+	assert(ctx);
+	shader->guts = ctx->GetDefaultShader(ctx);
+	return shader;
 }

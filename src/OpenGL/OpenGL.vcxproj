@@ -138,12 +138,14 @@
     <ClInclude Include="opengl_backend.h" />
     <ClInclude Include="opengl_context.h" />
     <ClInclude Include="opengl_image.h" />
+    <ClInclude Include="opengl_shader.h" />
     <ClInclude Include="opengl_shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="opengl_backend.c" />
     <ClCompile Include="opengl_context.c" />
     <ClCompile Include="opengl_image.c" />
+    <ClCompile Include="opengl_shader.c" />
     <ClCompile Include="opengl_shape.c" />
   </ItemGroup>
   <ItemGroup>

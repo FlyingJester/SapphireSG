@@ -44,6 +44,17 @@ struct SapphireSG_ShapeGuts *OpenGLSG_CreateShape(struct SapphireSG_Context *ctx
 
 }
 
+void OpenGLSG_DestroyShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
+	assert(ctx);
+	assert(shape);
+
+	if (!shape)
+		return;
+
+	glDeleteBuffers(3, shape->guts->buffer);
+	free(shape->guts);
+}
+
 void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
 
 	SapphireOpenGLExtra_UploadVertices(
@@ -72,9 +83,9 @@ void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape 
 	glTexCoordPointer(TEX_COORD_COMPONENTS, GL_FLOAT, 0, NULL);
 
 	if(shape->num_vertices < PREDEFINED_GL_MODES)
-		glDrawArrays(gl_draw_mode[shape->num_vertices], 0, 3);
+		glDrawArrays(gl_draw_mode[shape->num_vertices], 0, shape->num_vertices);
 	else
-		glDrawArrays(*gl_draw_mode, 0, 2);
+		glDrawArrays(*gl_draw_mode, 0, shape->num_vertices);
 
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);

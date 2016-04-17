@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 	gl_ctx = SDL_GL_CreateContext(window);
 	SDL_GL_MakeCurrent(window, gl_ctx);
 
-	sg_ctx = SG_CreateContext(SG_OpenGL, 2, 0);
+	sg_ctx = SG_CreateContext(SG_OpenGL2, 2, 0);
 
 	SG_SetCoordinateDistance(sg_ctx, 800, 600);
 
@@ -56,6 +56,8 @@ int main(int argc, char *argv[]) {
 		struct SapphireSG_Group *const group = SG_CreateGroup(sg_ctx);
 		struct SapphireSG_Shape *const shape = SG_CreateShape(sg_ctx);
 		struct SapphireSG_Image *const image = SG_CreateWhiteImage(sg_ctx);
+
+		SG_SetGroupShader(sg_ctx, group, SG_GetDefaultShader(sg_ctx));
 
 		unsigned char white[4] = { 0xFF, 0xFF, 0xFF, 0xFF };
 

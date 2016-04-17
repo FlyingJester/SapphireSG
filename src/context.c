@@ -2,6 +2,8 @@
 #include "sapphire_sg.h"
 
 #include "OpenGL/opengl_backend.h"
+#include "Software/software_backend.h"
+#include "OpenGL4/opengl4_backend.h"
 
 #include <assert.h>
 
@@ -22,8 +24,17 @@
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Context *SG_CreateContext(enum SG_Backend backend, unsigned maj, unsigned min) {
 	struct SapphireSG_Context *const ctx = calloc(sizeof(struct SapphireSG_Context), 1);
-	OpenGLSG_InitContext(ctx);
 
+	switch (backend) {
+		case SG_OpenGL2:
+			OpenGLSG_InitContext(ctx);
+			break;
+		case SG_OpenGL4:
+			OpenGL4SG_InitContext(ctx);
+			break;
+		case SG_Software:
+			SoftwareSG_InitContext(ctx);
+	}
 	ctx->guts = ctx->CreateContext();
 
 	ctx->backend = backend;

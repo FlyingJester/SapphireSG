@@ -17,10 +17,10 @@ struct SoftwareSG_ParametricTriangle{
 	float u1, v1, u2, v2, u3, v3;
 };
 
-void SoftwareSG_InitBox(struct SoftwareSG_Box *box, int x, int y, int w, int h);
-void SoftwareSG_InitSegment(struct SoftwareSG_Segment *seg, int x1, int y1, int x2, int y2);
+void SoftwareSG_InitBox(struct SoftwareSG_Box *box, float x, float y, float w, float h);
+void SoftwareSG_InitSegment(struct SoftwareSG_Segment *seg, float x1, float, float x2, float y2);
 void SoftwareSG_InitSegmentEquation(struct SoftwareSG_Segment *seg, float x, float m, float b);
-void SoftwareSG_InitPoint(struct SoftwareSG_Point *pt, int x, int y);
+void SoftwareSG_InitPoint(struct SoftwareSG_Point *pt, float x, float y);
 
 bool SoftwareSG_BoxEqual(const struct SoftwareSG_Box *box1, const struct SoftwareSG_Box *box2);
 bool SoftwareSG_SegmentEqual(const struct SoftwareSG_Segment *seg1, const struct SoftwareSG_Segment *sg2);
@@ -37,7 +37,7 @@ void SoftwareSG_PositionBox(struct SoftwareSG_Box *box, const struct SoftwareSG_
 void SoftwareSG_MoveSegment(struct SoftwareSG_Segment *seg,
 	const struct SoftwareSG_Point *p1, const struct SoftwareSG_Point *p2);
 
-float SoftwareSG_Distance(int x1, int y1, int x2, int y2);
+float SoftwareSG_Distance(float x1, float y1, float x2, float y2);
 
 bool SoftwareSG_BoxesIntersect(const struct SoftwareSG_Box *b1, const struct SoftwareSG_Box *b2);
 

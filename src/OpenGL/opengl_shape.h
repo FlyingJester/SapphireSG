@@ -7,5 +7,6 @@ struct SapphireSG_ShapeGuts {
 };
 
 struct SapphireSG_ShapeGuts *OpenGLSG_CreateShape(struct SapphireSG_Context *ctx);
+void OpenGLSG_DestroyShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape);
 void OpenGLSG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape);
 void OpenGLSG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape);

@@ -1,5 +1,4 @@
 #pragma once
+#include "../backend.h"
 
-struct SoftwareSG_Point {
-	float x, y;
-};
+void SoftwareSG_InitContext(struct SapphireSG_Context *);

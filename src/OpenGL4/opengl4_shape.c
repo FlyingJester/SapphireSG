@@ -2,6 +2,16 @@
 #include "../SapphireGLExtra/opengl.h"
 #include "../SapphireGLExtra/opengl_shape.h"
 
+#define PREDEFINED_GL_MODES 5
+
+static const unsigned gl_draw_mode[PREDEFINED_GL_MODES] = {
+	GL_TRIANGLE_STRIP,
+	GL_POINTS,
+	GL_LINE_LOOP,
+	GL_TRIANGLE_STRIP,
+	GL_TRIANGLE_FAN
+};
+
 struct SapphireSG_ShapeGuts *OpenGL4SG_CreateShape(struct SapphireSG_Context *ctx) {
 	struct SapphireSG_ShapeGuts *guts = malloc(sizeof(struct SapphireSG_ShapeGuts));
 
@@ -10,6 +20,12 @@ struct SapphireSG_ShapeGuts *OpenGL4SG_CreateShape(struct SapphireSG_Context *ct
 
 	return guts;
 
+}
+
+void OpenGL4SG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
+	const GLenum mode = (shape->num_vertices < PREDEFINED_GL_MODES) ?
+		gl_draw_mode[shape->num_vertices] : GL_TRIANGLE_STRIP;
+	glDrawArrays(mode, 0, shape->num_vertices);
 }
 
 void OpenGL4SG_UpdateShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {

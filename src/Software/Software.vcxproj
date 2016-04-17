@@ -23,6 +23,7 @@
     <ClInclude Include="..\sapphire_sg.h" />
     <ClInclude Include="blit.h" />
     <ClInclude Include="bresenham.h" />
+    <ClInclude Include="geometry.h" />
     <ClInclude Include="software_backend.h" />
     <ClInclude Include="software_context.h" />
     <ClInclude Include="software_image.h" />
@@ -31,6 +32,8 @@
   <ItemGroup>
     <ClCompile Include="blit.c" />
     <ClCompile Include="bresenham.c" />
+    <ClCompile Include="geometry.c" />
+    <ClCompile Include="software_backend.c" />
     <ClCompile Include="software_context.c" />
     <ClCompile Include="software_image.c" />
     <ClCompile Include="software_shape.c" />

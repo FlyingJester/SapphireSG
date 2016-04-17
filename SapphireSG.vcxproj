@@ -162,8 +162,14 @@
     <ClCompile Include="src\win32_monitor.c" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="src\OpenGL4\OpenGL4.vcxproj">
+      <Project>{bea2f6df-79aa-4471-bd7e-4f6de867087b}</Project>
+    </ProjectReference>
     <ProjectReference Include="src\OpenGL\OpenGL.vcxproj">
       <Project>{b98d7134-dc87-490f-b101-ae8f5e529304}</Project>
+    </ProjectReference>
+    <ProjectReference Include="src\Software\Software.vcxproj">
+      <Project>{93fea49e-6cd3-47cb-adee-b8c16e013ff7}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

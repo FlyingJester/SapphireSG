@@ -7,7 +7,7 @@
 #define SSG_MIN(A_, B_) (A_ > B_ ? B_ : A_)
 #define SSG_EPSILON 0.001f
 
-void SoftwareSG_InitBox(struct SoftwareSG_Box *box, int x, int y, int w, int h){
+void SoftwareSG_InitBox(struct SoftwareSG_Box *box, float x, float y, float w, float h){
 	assert(box);
 
 	box->x = x;
@@ -16,7 +16,7 @@ void SoftwareSG_InitBox(struct SoftwareSG_Box *box, int x, int y, int w, int h){
 	box->w = w;
 }
 
-void SoftwareSG_InitSegment(struct SoftwareSG_Segment *seg, int x1, int y1, int x2, int y2){
+void SoftwareSG_InitSegment(struct SoftwareSG_Segment *seg, float x1, float y1, float x2, float y2){
 	assert(seg);
 
 	seg->x1 = x1;
@@ -27,17 +27,17 @@ void SoftwareSG_InitSegment(struct SoftwareSG_Segment *seg, int x1, int y1, int 
 
 void SoftwareSG_InitSegmentEquation(struct SoftwareSG_Segment *seg, float x1, float m, float b){
 
-	float x2 = (x1>0.0) ? -1.0 : 1.0;
+	const float x2 = (x1>0.0) ? -1.0f : 1.0f;
 
-	seg->x1 = (int)x1;
-	seg->y1 = (int)( (m * x1) + b );
+	seg->x1 = x1;
+	seg->y1 = (m * x1) + b;
 
-	seg->x2 = (int)x2;
-	seg->y2 = (int)( (m * x2) + b );
+	seg->x2 = x2;
+	seg->y2 = (m * x2) + b;
 
 }
 
-void SoftwareSG_InitPoint(struct SoftwareSG_Point *pt, int x, int y){
+void SoftwareSG_InitPoint(struct SoftwareSG_Point *pt, float x, float y){
 	assert(pt);
 
 	pt->x = x;
@@ -113,7 +113,7 @@ void SoftwareSG_SolveForIntersection(struct SoftwareSG_Point *pt,
 void SoftwareSG_SolveForIntersectionRay(struct SoftwareSG_Point *pt,
     const struct SoftwareSG_Point *pt1, float slope1, const struct SoftwareSG_Point *pt2, float slope2){
     
-    return SoftwareSG_SolveForIntersection(pt,
+    SoftwareSG_SolveForIntersection(pt,
         slope1, SoftwareSG_YIntercept(pt1, slope1),
         slope2, SoftwareSG_YIntercept(pt2, slope2));
 }
@@ -121,11 +121,11 @@ float SoftwareSG_YIntercept(const struct SoftwareSG_Point *pt, float slope){
     return pt->y - (pt->x * slope);
 }
 
-float SoftwareSG_Distance(int x1, int y1, int x2, int y2){
-	const int a = (x1 - x2),
+float SoftwareSG_Distance(float x1, float y1, float x2, float y2){
+	const float a = (x1 - x2),
 		b = (y1 - y2);
 	
-	return sqrt((a*a) + (b*b));
+	return (float)sqrt((a*a) + (b*b));
 }
 
 float SoftwareSG_SegmentDistance(const struct SoftwareSG_Segment *seg){
@@ -265,7 +265,7 @@ bool SoftwareSG_AffineN(const struct SoftwareSG_ParametricTriangle *uv, float *u
     const struct SoftwareSG_Segment *ab_seg, const struct SoftwareSG_Segment *bc_seg,
 	float ab_len, float bc_len, float ab_slope, float bc_slope){
 
-    struct SoftwareSG_Point ab1, bc1, ab2, bc2;
+    struct SoftwareSG_Point ab1, bc1, bc2;
     struct SoftwareSG_Point ab_pt, bc_pt;
     
     ab1.x = ab_seg->x1;
@@ -301,8 +301,8 @@ bool SoftwareSG_AffineN(const struct SoftwareSG_ParametricTriangle *uv, float *u
         const float ab_t = (SoftwareSG_Distance(ab_pt.x, ab_pt.y, bc1.x, bc1.y) / ab_len),
             bc_t = (SoftwareSG_Distance(bc_pt.x, bc_pt.y, bc2.x, bc2.y) / bc_len);
 
-        u[0] = (bc_t * uv->u2) + ((1.0 - bc_t) * uv->u3);
-        v[0] = (ab_t * uv->v1) + ((1.0 - ab_t) * uv->v2);
+        u[0] = (bc_t * uv->u2) + ((1.0f - bc_t) * uv->u3);
+        v[0] = (ab_t * uv->v1) + ((1.0f - ab_t) * uv->v2);
         
         if(*u < 0.0f)
             u[0] = 0.0f;
