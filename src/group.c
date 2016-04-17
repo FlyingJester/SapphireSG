@@ -93,7 +93,6 @@ bool SG_SetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *g
 SAPPHIRESG_API_EXPORT
 struct SapphireSG_Shape *SG_GetGroupShape(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group, unsigned i) {
 
-
 	assert(ctx);
 	assert(group);
 	assert(i < group->num_shapes);

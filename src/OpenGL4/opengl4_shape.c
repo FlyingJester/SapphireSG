@@ -22,6 +22,16 @@ struct SapphireSG_ShapeGuts *OpenGL4SG_CreateShape(struct SapphireSG_Context *ct
 
 }
 
+void OpenGL4SG_DestroyShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
+	assert(ctx);
+	assert(shape);
+
+	glDeleteBuffers(3, shape->guts->buffer);
+	glDeleteVertexArrays(1, &shape->guts->vao);
+
+	free(shape->guts);
+}
+
 void OpenGL4SG_DrawShape(struct SapphireSG_Context *ctx, struct SapphireSG_Shape *shape) {
 	const GLenum mode = (shape->num_vertices < PREDEFINED_GL_MODES) ?
 		gl_draw_mode[shape->num_vertices] : GL_TRIANGLE_STRIP;
