@@ -14,6 +14,14 @@
 #define GL_STATIC_DRAW 0x88E4
 #endif
 
+#ifndef GL_CURRENT_PROGRAM
+#ifdef GL_ACTIVE_PROGRAM
+#define GL_CURRENT_PROGRAM GL_ACTIVE_PROGRAM
+#else
+#define GL_CURRENT_PROGRAM 0x8B8D
+#endif
+#endif
+
 #ifdef __APPLE__
 typedef long GLintptr;
 typedef long GLsizeiptr;
@@ -57,5 +65,11 @@ extern void (APIENTRY * glDeleteVertexArrays)(GLsizei, GLuint*);
 extern void (APIENTRY * glBindVertexArray)(GLuint);
 extern GLint(APIENTRY * glGetAttribLocation)(GLuint, const GLchar *);
 extern GLint(APIENTRY * glVertexAttribPointer)(GLuint name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *data);
+extern void (APIENTRY * glUniform1f)(GLint loc, GLfloat v0);
+extern void (APIENTRY * glUniform2f)(GLint loc, GLfloat v0, GLfloat v1);
+extern void (APIENTRY * glUniform3f)(GLint loc, GLfloat v0, GLfloat v1, GLfloat v2);
+extern void (APIENTRY * glProgramUniform1f)(GLuint prog, GLint loc, GLfloat v0);
+extern void (APIENTRY * glProgramUniform2f)(GLuint prog, GLint loc, GLfloat v0, GLfloat v1);
+extern void (APIENTRY * glProgramUniform3f)(GLuint prog, GLint loc, GLfloat v0, GLfloat v1, GLfloat v2);
 
-void OpenGLSG_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *));
+void SapphireOpenGLExtra_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *));

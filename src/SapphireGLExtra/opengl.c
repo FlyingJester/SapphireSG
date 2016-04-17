@@ -34,6 +34,44 @@ void (APIENTRY * glBindVertexArray)(GLuint) = NULL;
 GLint(APIENTRY * glGetAttribLocation)(GLuint, const GLchar *) = NULL;
 GLint(APIENTRY * glVertexAttribPointer)(GLuint name, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid *data) = NULL;
 
+void (APIENTRY * glUniform1f)(GLint loc, GLfloat v0);
+void (APIENTRY * glUniform2f)(GLint loc, GLfloat v0, GLfloat v1);
+void (APIENTRY * glUniform3f)(GLint loc, GLfloat v0, GLfloat v1, GLfloat v2);
+
+void (APIENTRY * glProgramUniform1f)(GLuint prog, GLint loc, GLfloat v0);
+void (APIENTRY * glProgramUniform2f)(GLuint prog, GLint loc, GLfloat v0, GLfloat v1);
+void (APIENTRY * glProgramUniform3f)(GLuint prog, GLint loc, GLfloat v0, GLfloat v1, GLfloat v2);
+
+static void SapphireProgramUniform1f(GLuint prog, GLint loc, GLfloat v0) {
+	GLint original_program;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &original_program);
+
+	glUseProgram(prog);
+	glUniform1f(loc, v0);
+
+	glUseProgram(original_program);
+}
+
+static void SapphireProgramUniform2f(GLuint prog, GLint loc, GLfloat v0, GLfloat v1) {
+	GLint original_program;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &original_program);
+
+	glUseProgram(prog);
+	glUniform2f(loc, v0, v1);
+
+	glUseProgram(original_program);
+}
+
+static void SapphireProgramUniform3f(GLuint prog, GLint loc, GLfloat v0, GLfloat v1, GLfloat v2) {
+	GLint original_program;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &original_program);
+
+	glUseProgram(prog);
+	glUniform3f(loc, v0, v1, v2);
+
+	glUseProgram(original_program);
+}
+
 #define CHECK_FOR_PROCESS(NAME){\
 if((void *)OpenGL_LoadProcAddres(NAME)==(void *)NULL){\
 fprintf(stderr, "[SapphireSG_OpenGL] Init Error: " NAME " is not present in OpenGL library.\n");\
@@ -53,13 +91,19 @@ NAME = TYPING OpenGL_LoadProcAddres( #NAME )
 CHECK_FOR_PROCESS_NON_FATAL( #NAME );\
 NAME = TYPING OpenGL_LoadProcAddres( #NAME )
 
+#define GET_GL_FUNCTION_NON_FATAL_ALTERNATIVE( NAME, TYPING, ALTERNATIVE_ )\
+CHECK_FOR_PROCESS_NON_FATAL( #NAME );\
+if(!(NAME = TYPING OpenGL_LoadProcAddres( #NAME ) ))\
+	NAME = ALTERNATIVE_
+
+
 #ifdef _WIN32
 static void *WGL_LoadProcAddres(const char *n) {
 	return wglGetProcAddress(n);
 }
 #endif
 
-void OpenGLSG_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *)) {
+void SapphireOpenGLExtra_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *)) {
 
 	if (OpenGL_LoadProcAddres == NULL) {
 #ifdef _WIN32
@@ -97,6 +141,18 @@ void OpenGLSG_LoadGLFunctions(void *(*OpenGL_LoadProcAddres)(const char *)) {
 	GET_GL_FUNCTION_NON_FATAL(glDeleteVertexArrays, (void (APIENTRY *)(GLsizei, GLuint*)));
 	GET_GL_FUNCTION_NON_FATAL(glBindVertexArray, (void (APIENTRY *)(GLuint)));
 	GET_GL_FUNCTION_NON_FATAL(glGetAttribLocation, (GLint(APIENTRY *)(GLuint, const GLchar*)));
-	GET_GL_FUNCTION_NON_FATAL(glVertexAttribPointer, (GLint(APIENTRY *)(GLuint, GLint, GLenum, GLboolean, GLsizei, const GLvoid*)));
+	GET_GL_FUNCTION_NON_FATAL(glVertexAttribPointer, 
+		(GLint(APIENTRY *)(GLuint, GLint, GLenum, GLboolean, GLsizei, const GLvoid*)));
+
+	GET_GL_FUNCTION_NON_FATAL(glUniform1f, (void (APIENTRY *)(GLint, GLfloat)));
+	GET_GL_FUNCTION_NON_FATAL(glUniform2f, (void (APIENTRY *)(GLint, GLfloat, GLfloat)));
+	GET_GL_FUNCTION_NON_FATAL(glUniform3f, (void (APIENTRY *)(GLint, GLfloat, GLfloat, GLfloat)));
+
+	GET_GL_FUNCTION_NON_FATAL_ALTERNATIVE(glProgramUniform1f, 
+		(void (APIENTRY *)(GLuint, GLint, GLfloat)), SapphireProgramUniform1f);
+	GET_GL_FUNCTION_NON_FATAL_ALTERNATIVE(glProgramUniform2f, 
+		(void (APIENTRY *)(GLuint, GLint, GLfloat, GLfloat)), SapphireProgramUniform2f);
+	GET_GL_FUNCTION_NON_FATAL_ALTERNATIVE(glProgramUniform3f, 
+		(void (APIENTRY *)(GLuint, GLint, GLfloat, GLfloat, GLfloat)), SapphireProgramUniform3f);
 
 }

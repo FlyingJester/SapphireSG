@@ -1,5 +1,5 @@
 #pragma once
-#include "opengl.h"
+#include "../SapphireGLExtra/opengl.h"
 #include "../backend.h"
 
 struct SapphireSG_ShapeGuts {

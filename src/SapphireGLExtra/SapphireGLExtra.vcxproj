@@ -18,10 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="opengl.c" />
+    <ClCompile Include="opengl_image.c" />
+    <ClCompile Include="opengl_shape.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="opengl.h" />
+    <ClInclude Include="opengl_image.h" />
+    <ClInclude Include="opengl_shape.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B98D7134-DC87-490F-B101-AE8F5E529304}</ProjectGuid>
+    <ProjectGuid>{A527949E-E725-4363-9C2E-E498A5572C0F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>OpenGL</RootNamespace>
+    <RootNamespace>SapphireGLExtra</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -69,9 +79,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetExt>.lib</TargetExt>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -126,31 +134,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-    </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\backend.h" />
-    <ClInclude Include="..\sapphire_sg.h" />
-    <ClInclude Include="opengl_backend.h" />
-    <ClInclude Include="opengl_context.h" />
-    <ClInclude Include="opengl_image.h" />
-    <ClInclude Include="opengl_shape.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="opengl_backend.c" />
-    <ClCompile Include="opengl_context.c" />
-    <ClCompile Include="opengl_image.c" />
-    <ClCompile Include="opengl_shape.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SapphireGLExtra\SapphireGLExtra.vcxproj">
-      <Project>{a527949e-e725-4363-9c2e-e498a5572c0f}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

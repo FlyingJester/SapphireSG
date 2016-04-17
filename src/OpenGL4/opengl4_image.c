@@ -1,8 +1,8 @@
-#include "opengl_image.h"
+#include "opengl4_image.h"
 #include "../SapphireGLExtra/opengl_image.h"
 #include <assert.h>
 
-struct SapphireSG_ImageGuts *OpenGLSG_CreateImage(struct SapphireSG_Context *ctx,
+struct SapphireSG_ImageGuts *OpenGL4SG_CreateImage(struct SapphireSG_Context *ctx,
 	const unsigned char *pixels, unsigned long w, unsigned long h) {
 	struct SapphireSG_ImageGuts *const guts = malloc(sizeof(struct SapphireSG_ImageGuts));
 
@@ -13,7 +13,7 @@ struct SapphireSG_ImageGuts *OpenGLSG_CreateImage(struct SapphireSG_Context *ctx
 	return guts;
 }
 
-void OpenGLSG_DestroyImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im) {
+void OpenGL4SG_DestroyImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im) {
 	assert(ctx);
 	assert(im);
 	assert(im->guts);
@@ -21,7 +21,7 @@ void OpenGLSG_DestroyImage(struct SapphireSG_Context *ctx, struct SapphireSG_Ima
 	free(im->guts);
 }
 
-void OpenGLSG_BindImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im) {
+void OpenGL4SG_BindImage(struct SapphireSG_Context *ctx, struct SapphireSG_Image *im) {
 	assert(ctx);
 	assert(im);
 	assert(im->guts);
