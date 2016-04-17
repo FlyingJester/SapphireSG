@@ -64,6 +64,12 @@ enum SG_Backend {
  */
 struct SapphireSG_Context;
 
+struct SapphireSG_Shader;
+
+struct SapphireSG_VertexShader;
+struct SapphireSG_FragmentShader;
+struct SapphireSG_GeometryShader;
+
 struct SapphireSG_Group;
 
 struct SapphireSG_Shape;
@@ -156,21 +162,59 @@ SAPPHIRESG_API_EXPORT
 struct SapphireSG_Group *SG_CreateGroup(struct SapphireSG_Context *ctx);
 
 /**
-* @brief Destroys a Group and frees the associated context memory.
-*
-* @note this will not free the associated memory for all created Shapes.
-*
-* @param ctx Context which the Group belongs to.
-* @param group Group to destroy
-* @return true if destruction is successful, false otherwise
+ * @brief Destroys a Group and frees the associated context memory.
+ *
+ * @note this will not free the associated memory for all created Shapes.
+ *
+ * @param ctx Context which the Group belongs to.
+ * @param group Group to destroy
+ * @return true if destruction is successful, false otherwise
  * @see SG_CreateGroup
  * @see SG_DestroyShape
-*/
+ */
 SAPPHIRESG_API_EXPORT
 bool SG_DestroyGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group);
 
 SAPPHIRESG_API_EXPORT
 bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group);
+
+/**
+ * @brief Creates a Shader Program
+ *
+ * Shader Programs are composed of one vertex shader, one fragment shader, and
+ * any number of geometry shaders (or no geometry shaders at all). You can reuse
+ * vertex and fragment shaders, and there is no requirement for when you can
+ * destroy fragment and vertex shaders with regard to any shader programs.
+ *
+ * @param ctx Context to create a shader for
+ * @param vert Vertex shader to use
+ * @param frag Fragment shader to use
+ * @param geos (optional) Array of geometry shaders to use. This array should
+ *        be NULL-terminated. It can be NULL to indicate zero geometry shaders,
+ *        which is equivalent to specifying an array starting with NULL.
+ * @param log (out) (optional) String buffer of @p length bytes to which error
+ *        logs can be written.
+ * @param length (optional) Length of @p log buffer.
+ * @return Shader program or NULL if there is an error, in which case @p log
+ *        will be filled out if @p log is not NULL and @length is not zero.
+ * @sa SG_CreateVertexShader
+ * @sa SG_CreateFragmentShader
+ * @sa SG_CreateGeometryShader
+ */
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_Shader *SG_CreateShader(struct SapphireSG_Context *ctx,
+	struct SapphireSG_VertexShader *vert, struct SapphireSG_FragmentShader *frag,
+	struct SapphireSG_GeometryShader **geos SG_DEF_ARG(NULL),
+	char *log SG_DEF_ARG(NULL), unsigned long length SG_DEF_ARG(0u));
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_VertexShader *SG_CreateVertexShader(struct SapphireSG_Context *ctx, const char *src);
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_FragmentShader *SG_CreateFragmentShader(struct SapphireSG_Context *ctx, const char *src);
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_GeometryShader *SG_CreateGeometryShader(struct SapphireSG_Context *ctx, const char *src);
 
 /**
  * @brief Creates a Shape for a Context.

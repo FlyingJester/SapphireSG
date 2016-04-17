@@ -1,7 +1,8 @@
 #pragma once
 #include "../SapphireGLExtra/opengl.h"
+#include "../backend.h"
 
-struct OpenGL4SG_ShaderGuts {
+struct SapphireSG_ShaderGuts {
 
 	GLuint vert_shader, frag_shader;
 	GLuint program;
@@ -13,7 +14,8 @@ struct OpenGL4SG_ShaderGuts {
 
 };
 
-void OpenGL4SG_SetCoordinateSpace(const struct SapphireSG_Context *ctx, unsigned w, unsigned h,
-	float left, float right, float top, float bottom, float nearz, float farz);
+struct SapphireSG_ShaderGuts *OpenGL4SG_CreateShader(struct SapphireSG_Context *ctx);
+struct SapphireSG_ShaderGuts *OpenGL4SG_DestroyShader(struct SapphireSG_Context *ctx, struct SapphireSG_Shader* shader);
+void OpenGL4SG_SetShaderParams(struct SapphireSG_Context *ctx, struct SapphireSG_Shader *shader,
+	const struct SapphireSG_GroupAttribs *attribs);
 
-struct OpenGL4SG_ShaderGuts *OpenGL4SG_CreateShader();

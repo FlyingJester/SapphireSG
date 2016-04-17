@@ -12,6 +12,8 @@ bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group
 	assert(ctx);
 	assert(group);
 
+	ctx->SetShaderParams(ctx, group->shader, &group->attribs);
+
 	while (i < group->num_shapes) {
 
 		ctx->BindImage(ctx, group->shapes[i]->image);

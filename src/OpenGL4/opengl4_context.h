@@ -5,7 +5,7 @@
 
 
 struct OpenGL4SG_ShaderList {
-	struct OpenGL4SG_ShaderGuts shader;
+	struct SapphireSG_ShaderGuts shader;
 	struct OpenGL4SG_ShaderList *next;
 };
 

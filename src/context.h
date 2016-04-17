@@ -23,4 +23,8 @@ struct SapphireSG_Context {
 	void(*BindImage)(struct SapphireSG_Context *, struct SapphireSG_Image *);
 	void(*UpdateShape)(struct SapphireSG_Context *, struct SapphireSG_Shape *shape);
 	void(*DrawShape)(struct SapphireSG_Context *, struct SapphireSG_Shape *shape);
+
+	void(*SetShaderParams)(struct SapphireSG_Context *ctx, struct SapphireSG_Shader *shader, 
+		const struct SapphireSG_GroupAttribs *attribs);
+
 };
