@@ -179,6 +179,54 @@ SAPPHIRESG_API_EXPORT
 bool SG_DrawGroup(struct SapphireSG_Context *ctx, struct SapphireSG_Group *group);
 
 /**
+ * @brief Creates a Vertex Shader
+ *
+ * A Shader Program requires a Vertex Shader and a Fragment Shader, and a 
+ * Shader Program is required for every Group.
+ *
+ * @param ctx Contex to create a Vertex Shader for
+ * @param src Shader source. The format and langauge depend on the backend,
+ *        although OpenGL and Vulkan both use GLSL
+ * @param log (out) (optional) String buffer of @p length bytes to which error
+ *        logs can be written.
+ * @param length (optional) Length of @p log buffer.
+ * @return Vertex Shader or NULL if there is an error, in which case @p log
+ *        will be filled out if @p log is not NULL and @length is not zero.
+ * @sa SG_CreateFragmentShader
+ * @sa SG_CreateGeometryShader
+ * @sa SG_CreateShader
+ */
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_VertexShader *SG_CreateVertexShader(struct SapphireSG_Context *ctx, const char *src,
+	char *log SG_DEF_ARG(NULL), unsigned long length SG_DEF_ARG(0u));
+
+/**
+* @brief Creates a Fragment Shader
+*
+* A Shader Program requires a Vertex Shader and a Fragment Shader, and a
+* Shader Program is required for every Group.
+*
+* @param ctx Contex to create a Fragment Shader for
+* @param src Shader source. The format and langauge depend on the backend,
+*        although OpenGL and Vulkan both use GLSL
+* @param log (out) (optional) String buffer of @p length bytes to which error
+*        logs can be written.
+* @param length (optional) Length of @p log buffer.
+* @return Vertex Shader or NULL if there is an error, in which case @p log
+*        will be filled out if @p log is not NULL and @length is not zero.
+* @sa SG_CreateVertexShader
+* @sa SG_CreateGeometryShader
+* @sa SG_CreateShader
+*/
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_FragmentShader *SG_CreateFragmentShader(struct SapphireSG_Context *ctx, const char *src,
+	char *log SG_DEF_ARG(NULL), unsigned long length SG_DEF_ARG(0u));
+
+SAPPHIRESG_API_EXPORT
+struct SapphireSG_GeometryShader *SG_CreateGeometryShader(struct SapphireSG_Context *ctx, const char *src,
+	char *log SG_DEF_ARG(NULL), unsigned long length SG_DEF_ARG(0u));
+
+/**
  * @brief Creates a Shader Program
  *
  * Shader Programs are composed of one vertex shader, one fragment shader, and
@@ -206,15 +254,6 @@ struct SapphireSG_Shader *SG_CreateShader(struct SapphireSG_Context *ctx,
 	struct SapphireSG_VertexShader *vert, struct SapphireSG_FragmentShader *frag,
 	struct SapphireSG_GeometryShader **geos SG_DEF_ARG(NULL),
 	char *log SG_DEF_ARG(NULL), unsigned long length SG_DEF_ARG(0u));
-
-SAPPHIRESG_API_EXPORT
-struct SapphireSG_VertexShader *SG_CreateVertexShader(struct SapphireSG_Context *ctx, const char *src);
-
-SAPPHIRESG_API_EXPORT
-struct SapphireSG_FragmentShader *SG_CreateFragmentShader(struct SapphireSG_Context *ctx, const char *src);
-
-SAPPHIRESG_API_EXPORT
-struct SapphireSG_GeometryShader *SG_CreateGeometryShader(struct SapphireSG_Context *ctx, const char *src);
 
 /**
  * @brief Creates a Shape for a Context.
