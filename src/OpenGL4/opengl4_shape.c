@@ -1,6 +1,7 @@
 #include "opengl4_shape.h"
 #include "../SapphireGLExtra/opengl.h"
 #include "../SapphireGLExtra/opengl_shape.h"
+#include <assert.h>
 
 #define PREDEFINED_GL_MODES 5
 

@@ -28,12 +28,15 @@ libs = []
 if sys.platform == "msys":
 	libs += ["GDI32", "user32", "winmm", "imm32", "ole32", "oleaut32"]
 
+libsapphireglextra = {}
+
 conf = Configure(environment)
 if conf.CheckCHeader("vulkan/vulkan.h"):
     backends += ["Vulkan"]
 if conf.CheckCHeader("GL/gl.h"):
 #    libs += [gl_lib]
-    backends += ["OpenGL"]
+    libsapphireglextra = SConscript(dirs=["SapphireGLExtra"], exports = ["environment"])
+    backends += ["OpenGL", "OpenGL4"]
 
 enable_egl = conf.CheckCHeader("EGL/egl.h") and False
 
@@ -44,7 +47,7 @@ if enable_egl:
 else:
     environment.Append(CPPDEFINES="SAPPHIRESG_DISABLE_EGL")
 
-libs += SConscript(dirs = backends, exports = ["environment"])
+libs += SConscript(dirs = backends, exports = ["environment", "libsapphireglextra"])
 
 libsapphiresg = environment.SharedLibrary("sapphiresg", source, LIBS = libs)
 

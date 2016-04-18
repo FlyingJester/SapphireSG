@@ -18,4 +18,4 @@ else:
 
 libsapphiresg = SConscript(dirs = ["src"], exports = ["environment"])
 
-examples = SConscript(dirs=["examples/SDL2_GL_Example"], exports=["environment", "libsapphiresg"])
+# examples = SConscript(dirs=["examples/SDL2_GL_Example"], exports=["environment", "libsapphiresg"])

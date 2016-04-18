@@ -1,5 +1,6 @@
 #pragma once
 #include "sapphire_sg.h"
+#include "backend.h"
 
 struct SapphireSG_ContextGuts;
 
