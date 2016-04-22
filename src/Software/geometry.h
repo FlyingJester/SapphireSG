@@ -52,3 +52,6 @@ bool SoftwareSG_SegmentsIntersect(struct SoftwareSG_Point *pt, bool bound,
 
 bool SoftwareSG_Affine(const struct SoftwareSG_ParametricTriangle *uv, float *u, float *v, const struct SoftwareSG_Point *in,
 	const struct SoftwareSG_Segment *ab_seg, const struct SoftwareSG_Segment *bc_seg);
+
+bool SoftwareSG_WithinPolygon(const struct SoftwareSG_Point *p, const struct SoftwareSG_Segment *segments, unsigned n);
+bool SoftwareSG_BoundPolygon(struct SoftwareSG_Box *out, const struct SoftwareSG_Segment *segments, unsigned n);

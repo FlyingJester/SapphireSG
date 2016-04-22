@@ -249,8 +249,10 @@ bool SoftwareSG_SegmentsIntersect(struct SoftwareSG_Point *pt, bool bound,
 		}
 
 		if((!bound) || SoftwareSG_PointInBox(&box1, &intersect)){
-			pt->x = intersect.x;
-			pt->y = intersect.y;
+			if(pt){
+				pt->x = intersect.x;
+				pt->y = intersect.y;
+			}
 			return true;
 		}
 		return false;
@@ -331,3 +333,67 @@ bool SoftwareSG_Affine(const struct SoftwareSG_ParametricTriangle *uv, float *u,
 	
 	return SoftwareSG_AffineN(uv, u, v, in, ab_seg, bc_seg, ab_len, bc_len, ab_slope, bc_slope);
 }
+
+
+bool SoftwareSG_WithinPolygon(const struct SoftwareSG_Point *p, const struct SoftwareSG_Segment *segments, unsigned num_segments){
+	unsigned parity = 0;
+	unsigned i = 0;
+	
+	float min_x = -1.0f;
+
+	struct SoftwareSG_Segment test_segment;
+
+	for(i=0; i<num_segments; i++){
+		if(segments[i].x1 < min_x)
+			min_x = segments[i].x1;
+		if(segments[i].x2 < min_x)
+			min_x = segments[i].x2;
+	}
+
+	test_segment.x1 = min_x - 1.0f;
+	test_segment.y1 = test_segment.y2 = p->y;
+	test_segment.x2 = p->x;
+
+	for(i=0; i<num_segments; i++){
+
+		if(SoftwareSG_SegmentsIntersect(NULL, true, segments + i, &test_segment))
+			parity++;
+	}
+
+	return parity % 2;
+
+}
+
+bool SoftwareSG_BoundPolygon(struct SoftwareSG_Box *box, const struct SoftwareSG_Segment *segments, unsigned num_segments){
+	float min_x = segments[0].x1, max_x = segments[0].x1,
+		min_y = segments[0].y1, max_y = segments[0].y1;
+	unsigned i;
+	for(i=0; i<num_segments; i++){
+		if(segments[i].x1 < min_x)
+			min_x = segments[i].x1;
+		else if(segments[i].x1 > max_x)
+			max_x = segments[i].x1;
+		if(segments[i].x2 < min_x)
+			min_x = segments[i].x2;
+		else if(segments[i].x2 > max_x)
+			max_x = segments[i].x2;
+
+		if(segments[i].y1 < min_y)
+			min_y = segments[i].y1;
+		else if(segments[i].y1 > max_y)
+			max_y = segments[i].y1;
+		if(segments[i].y2 < min_y)
+			min_y = segments[i].y2;
+		else if(segments[i].y2 > max_x)
+			max_y = segments[i].y2;
+	}
+	
+	box->x = min_x;
+	box->y = min_y;
+	
+	box->w = max_x - min_x;
+	box->h = max_y - min_y;
+
+	return true;
+}
+
