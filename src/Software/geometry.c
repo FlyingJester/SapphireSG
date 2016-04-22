@@ -212,8 +212,7 @@ bool SoftwareSG_SegmentsIntersect(struct SoftwareSG_Point *pt, bool bound,
 		 * Rise/Run, difference of Y over difference of X
 		 */
 		const float slope1 = SoftwareSG_SegmentSlope(seg1),
-			slope2 = -SoftwareSG_SegmentSlope(seg1);
-
+			slope2 = SoftwareSG_SegmentSlope(seg2);
 		/* Finding the Y-intercept.
 		 * b = y-mx
 		 */
@@ -221,6 +220,9 @@ bool SoftwareSG_SegmentsIntersect(struct SoftwareSG_Point *pt, bool bound,
 			intercept2 = (float)seg2->y1 - (seg2->x1 * slope2);
 
 		struct SoftwareSG_Point intersect;
+
+        if(slope1 == slope2)
+            return false;
 
 		/* If the slope of s1 is infinity */
 		if(seg1->x1 == seg1->x2){
@@ -302,9 +304,14 @@ bool SoftwareSG_AffineN(const struct SoftwareSG_ParametricTriangle *uv, float *u
         
         const float ab_t = (SoftwareSG_Distance(ab_pt.x, ab_pt.y, bc1.x, bc1.y) / ab_len),
             bc_t = (SoftwareSG_Distance(bc_pt.x, bc_pt.y, bc2.x, bc2.y) / bc_len);
-
+        
+        u[0] = (ab_t * uv->u1) + ((ab_t - 1.0f) * uv->u2);
+        u[1] = (bc_t * uv->v2) + ((bc_t - 1.0f) * uv->v3);
+        
+        /*
         u[0] = (bc_t * uv->u2) + ((1.0f - bc_t) * uv->u3);
         v[0] = (ab_t * uv->v1) + ((1.0f - ab_t) * uv->v2);
+        */
         
         if(*u < 0.0f)
             u[0] = 0.0f;
@@ -355,8 +362,7 @@ bool SoftwareSG_WithinPolygon(const struct SoftwareSG_Point *p, const struct Sof
 	test_segment.x2 = p->x;
 
 	for(i=0; i<num_segments; i++){
-
-		if(SoftwareSG_SegmentsIntersect(NULL, true, segments + i, &test_segment))
+		if(SoftwareSG_SegmentsIntersect(NULL, true, &test_segment, segments + i))
 			parity++;
 	}
 
@@ -369,25 +375,28 @@ bool SoftwareSG_BoundPolygon(struct SoftwareSG_Box *box, const struct SoftwareSG
 		min_y = segments[0].y1, max_y = segments[0].y1;
 	unsigned i;
 	for(i=0; i<num_segments; i++){
-		if(segments[i].x1 < min_x)
+             if(segments[i].x1 < min_x)
 			min_x = segments[i].x1;
 		else if(segments[i].x1 > max_x)
 			max_x = segments[i].x1;
-		if(segments[i].x2 < min_x)
+             if(segments[i].x2 < min_x)
 			min_x = segments[i].x2;
 		else if(segments[i].x2 > max_x)
 			max_x = segments[i].x2;
 
-		if(segments[i].y1 < min_y)
+             if(segments[i].y1 < min_y)
 			min_y = segments[i].y1;
 		else if(segments[i].y1 > max_y)
 			max_y = segments[i].y1;
-		if(segments[i].y2 < min_y)
+             if(segments[i].y2 < min_y)
 			min_y = segments[i].y2;
-		else if(segments[i].y2 > max_x)
+		else if(segments[i].y2 > max_y)
 			max_y = segments[i].y2;
 	}
 	
+    assert(max_x >= min_x);
+    assert(max_y >= min_y);
+    
 	box->x = min_x;
 	box->y = min_y;
 	

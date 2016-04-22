@@ -22,6 +22,14 @@ void SoftwareSG_InitSegment(struct SoftwareSG_Segment *seg, float x1, float, flo
 void SoftwareSG_InitSegmentEquation(struct SoftwareSG_Segment *seg, float x, float m, float b);
 void SoftwareSG_InitPoint(struct SoftwareSG_Point *pt, float x, float y);
 
+#define SoftwareSG_CopySegment(FROM_, TO_)\
+    do{\
+        (TO_)->x1 = (FROM_)->x1;\
+        (TO_)->y1 = (FROM_)->y1;\
+        (TO_)->x2 = (FROM_)->x2;\
+        (TO_)->y2 = (FROM_)->y2;\
+    }while(0)
+
 bool SoftwareSG_BoxEqual(const struct SoftwareSG_Box *box1, const struct SoftwareSG_Box *box2);
 bool SoftwareSG_SegmentEqual(const struct SoftwareSG_Segment *seg1, const struct SoftwareSG_Segment *sg2);
 bool SoftwareSG_PointEqual(const struct SoftwareSG_Point *p1, const struct SoftwareSG_Point *p2);
