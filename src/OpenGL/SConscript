@@ -1,5 +1,5 @@
 import os
-Import("environment")
+Import("environment libsapphireglextra")
 
 source = [
 	"opengl_backend.c",
@@ -9,10 +9,13 @@ source = [
 	"opengl_shader.c",
 ]
 
+libs = [libsapphireglextra]
+
 if os.name == "posix":
-	libs = "GL"
-else:
-	libs = "OpenGL32"
+	libs += ["GL"]
+elif os.name == "nt":
+	libs += ["OpenGL32"]
+	libs += ["GDI32", "user32", "winmm", "imm32", "ole32", "oleaut32"]
 
 libopenglsg = environment.StaticLibrary("openglsg", source, LIBS = libs)
 

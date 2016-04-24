@@ -1,0 +1,20 @@
+import os
+Import("environment")
+
+source = [
+    "opengl.c",
+    "opengl_image.c",
+    "opengl_shape.c"
+]
+
+libs = []
+
+if os.name == "posix":
+	libs += ["GL"]
+elif os.name == "nt":
+	libs += ["OpenGL32"]
+	libs += ["GDI32", "user32", "winmm", "imm32", "ole32", "oleaut32"]
+
+libsapphireglextra = environment.StaticLibrary("sapphireglextra", source, LIBS = libs)
+
+Return("libsapphireglextra")

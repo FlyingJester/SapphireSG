@@ -14,8 +14,8 @@ if os.name == "posix":
 	if sys.platform == "msys":
 		environment.Append(CCFLAGS = " -mcmodel=medium ", LINKFLAGS = " -mcmodel=medium ")
 else:
-	environment.Append(CCFLAGS = " /O2 /MD /Zi ", LINKFLAGS = " /DEBUG ")
+	environment.Append(CCFLAGS = " /O2 /MD /Zi ", LINKFLAGS = " /DEBUG ", CPPDEFINES=["SAPPHIRESG_EXPORTS"])
 
-libsapphiresg = SConscript(dirs = ["src"], exports = ["environment"])
+libsapphiresg = SConscript("SConscript", exports = ["environment"])
 
 # examples = SConscript(dirs=["examples/SDL2_GL_Example"], exports=["environment", "libsapphiresg"])

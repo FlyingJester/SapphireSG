@@ -26,18 +26,26 @@ struct SapphireSG_Context *SG_CreateContext(enum SG_Backend backend, unsigned ma
 	struct SapphireSG_Context *const ctx = calloc(sizeof(struct SapphireSG_Context), 1);
 
 	switch (backend) {
-		case SG_OpenGL2:
-			OpenGLSG_InitContext(ctx);
-			break;
 		case SG_Any:
+#ifdef SAPPHIRESG_USE_OPENGL4
 		case SG_OpenGL4:
 			OpenGL4SG_InitContext(ctx);
 			break;
+#endif
+#ifdef SAPPHIRESG_USE_OPENGL
+		case SG_OpenGL2:
+			OpenGLSG_InitContext(ctx);
+			break;
+#endif
+#ifdef SAPPHIRESG_USE_SOFTWARE
 		case SG_Software:
 			SoftwareSG_InitContext(ctx);
 			break;
+#endif
+#ifdef SAPPHIRESG_USE_VULKAN
 		case SG_Vulkan:
 			break;
+#endif
 	}
 	ctx->guts = ctx->CreateContext();
 
