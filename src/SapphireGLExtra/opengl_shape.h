@@ -1,4 +1,5 @@
 #pragma once
+#include "../shape.h"
 #include "opengl.h"
 
 #define COLOR_COMPONENTS 4
