@@ -1,0 +1,8 @@
+import os
+import sys
+
+Import("environment gl_library libopenglextra")
+
+libopengl2 = environment.StaticLibrary("sapphire_opengl2", ["opengl2_context.cpp"], LIBS = [gl_library, libopenglextra])
+
+Return("libopengl2")

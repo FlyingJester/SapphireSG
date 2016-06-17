@@ -1,5 +1,0 @@
-Import("environment libsapphiresg")
-
-example = environment.Program("sdl2_gl_example", ["sdl2_gl_main.c"], LIBS = [libsapphiresg, "SDL2", "GL"])
-
-Return("example")

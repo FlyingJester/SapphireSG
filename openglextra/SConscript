@@ -1,0 +1,18 @@
+import os
+import sys
+
+Import("environment gl_library")
+
+local_env = environment.Clone()
+
+source = [
+    "opengl.c",
+    "opengl_image.c"
+]
+
+if sys.platform == 'darwin':
+    local_env.Append(FRAMEWORKS = ["OpenGL"])
+
+libopenglextra = local_env.StaticLibrary("openglextra", source, LIBS = gl_library)
+
+Return("libopenglextra")
